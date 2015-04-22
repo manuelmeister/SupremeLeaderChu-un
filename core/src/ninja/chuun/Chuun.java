@@ -21,7 +21,7 @@ public class Chuun {
 
     Map map;
 
-    private Rectangle bounds = new Rectangle();
+    public Rectangle bounds = new Rectangle();
     static final Vector2 SCALE = new Vector2(1, 1);
 
     private long gravityTime;
