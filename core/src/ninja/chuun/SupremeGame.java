@@ -98,7 +98,7 @@ public class SupremeGame extends ApplicationAdapter {
 	}
 
 	@Override
-	public void render() {
+	public void render(float delta) {
 		System.out.println("Game time in sec: " + ((System.nanoTime() / 1000000000) - startTime));
 		System.out.println("Frame counter: "+counter++);
 		if (((System.nanoTime() / 1000000000) - startTime) != 0){
@@ -109,15 +109,7 @@ public class SupremeGame extends ApplicationAdapter {
 		Gdx.gl.glClearColor(0, 0.8f, 0.2f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		//Update Camera
-		camera.update();
-
-		//Set Camera matrix
-		batch.setProjectionMatrix(camera.combined);
-
-		//update chuun
-		map.chuun.updateState();
-		map.chuun.update();
+		mapRenderer.render(delta);
 
 
 

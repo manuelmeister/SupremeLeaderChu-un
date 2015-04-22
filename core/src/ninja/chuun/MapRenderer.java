@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.SpriteCache;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector3;
 
 import java.util.Arrays;
 
@@ -45,7 +46,7 @@ public class MapRenderer {
         this.map = map;
         this.camera = new OrthographicCamera(24, 16);
         this.camera.position.set(Chuun.pos.x, Chuun.pos.y, 0);
-        this.batch = new SpriteBatch(map.tiles.length * map.tiles.length);
+        this.batch = new SpriteBatch(map.tiles.length * map.tiles[0].length);
         this.mapCache = new SpriteCache(map.tiles.length * map.tiles.length, false);
 
         createBlocks();
@@ -106,9 +107,16 @@ public class MapRenderer {
         stateTime = 0f;
     }
 
+    Vector3 lerpTarget = new Vector3();
+
     //@Override
-    public void render() {
+    public void render(float deltaTime) {
         map.chuun.updateState();
+
+        camera.position.lerp(lerpTarget.set(map.chuun.pos,0), 2f * deltaTime);
+        camera.update();
+
+        mapCache.setProjectionMatrix(camera.combined);
         //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
         stateTime += Gdx.graphics.getDeltaTime();
 
