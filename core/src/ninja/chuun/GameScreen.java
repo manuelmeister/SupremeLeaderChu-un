@@ -25,92 +25,45 @@ public class GameScreen implements Screen {
 	//private Sprite blackImage;
 	//private Sound dropSound;
 	//private Music rainMusic;
-	private OrthographicCamera camera;
-	private SpriteBatch batch;
+	//private OrthographicCamera camera;
+	//private SpriteBatch batch;
 	//private Rectangle chu_un;
 
-	private double supremeSpeed;
-	private double supremeGravitySpeed;
+	//private double supremeSpeed;
+	//private double supremeGravitySpeed;
 
 	Map map;
 
 	//private Array<Rectangle> scientists;
 	//private long lastScientistTime;
 	//private long gravityTime;
-	private long startTime = System.nanoTime()/1000000000;
+	//private long startTime = System.nanoTime()/1000000000;
 
 	//private double gravityAcceleration = -500;
 	//private double supremeAcceleration = 1000;
 	//private double movementTimeStep = 0.001;
 
 	MapRenderer mapRenderer;
-	ModelInstance instance;
-	AnimationController controller;
+	//ModelInstance instance;
+	//AnimationController controller;
 
-	int counter = 0;
+	//int counter = 0;
 
 	//private Rectangle floor;
 	//private Rectangle wall;
 
 	@Override
 	public void show() {
-
-		//load animations
-		Map	map = new Map();
+		map = new Map();
 		mapRenderer = new MapRenderer(map);
-
-		// load the images for the chu_un, 32 pixels
-		//chu_unImage = new Texture(Gdx.files.internal("chu_un.png"));
-		//Texture texture = new Texture(Gdx.files.internal("bucket.png"));
-		//blackImage = new Sprite(texture);
-
-		//load and set camera
-		camera = new OrthographicCamera();
-		camera.setToOrtho(false, 800, 480);
-
-		//instantiate SpriteBatch
-		batch = new SpriteBatch();
-
-
-		/* old code (from testing)
-		//Create SupremeRectangled
-		chu_un = new Rectangle();
-		chu_un.x = 50;
-		chu_un.y = 100;
-		//rectangle is smaller than Sprite -> better collision detection. Both sides 8 pixels times SCALE empty
-		chu_un.width = map.chuun.getBounds().x;
-		chu_un.height = map.chuun.getBounds().y;
-
-		//Create Floor (same size as black Image)
-		floor = new Rectangle();
-		floor.x = 0;
-		floor.y = 0;
-		floor.width = 500;
-		floor.height = 30;
-
-		//Create Wall (same size as black Image)
-		wall = new Rectangle();
-		wall.x = 0;
-		wall.y = 0;
-		wall.width = 30;
-		wall.height = 500;
-
-		scientists = new Array<Rectangle>();
-		spawnScientist();
-		*/
-
 	}
 
 	@Override
 	public void render(float delta) {
 		delta = Math.min(0.06f, Gdx.graphics.getDeltaTime());
 
-//		System.out.println("Game time in sec: " + ((System.nanoTime() / 1000000000) - startTime));
-//		System.out.println("Frame counter: "+counter++);
-//		if (((System.nanoTime() / 1000000000) - startTime) != 0){
-//			System.out.println("Average fps: "+(counter/((System.nanoTime() / 1000000000) - startTime)));
-//		}
-//		System.out.println("------------------------------------");
+		map.update(delta);
+
 		//Set Color to blue
 		Gdx.gl.glClearColor(0, 0.8f, 0.2f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -239,12 +192,6 @@ public class GameScreen implements Screen {
 			//TODO embed main menu screen
 			System.out.println("Main menu");//game.setScreen(new MainMenu(game));
 		}
-
-		//Batch Render-Code
-		batch.begin();
-
-		batch.end();
-
 	}
 
 	@Override

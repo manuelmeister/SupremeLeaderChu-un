@@ -21,7 +21,7 @@ public class MapRenderer {
     OrthographicCamera camera;
 
     SpriteCache mapCache;
-    SpriteBatch batch;
+    SpriteBatch batch = new SpriteBatch(5460);
 
     private float posX;
     private float posY;
@@ -46,11 +46,11 @@ public class MapRenderer {
         this.map = map;
         this.camera = new OrthographicCamera(24, 16);
         this.camera.position.set(Chuun.pos.x, Chuun.pos.y, 0);
-        this.batch = new SpriteBatch(5460);
-        this.mapCache = new SpriteCache(map.tiles.length * map.tiles.length, false);
+        this.mapCache = new SpriteCache(map.tiles.length * map.tiles[0].length, false);
+        this.blocks = new int[(int) (this.map.tiles.length / 24.0f)][(int) (this.map.tiles[0].length / 16.0f)];
 
-        createBlocks();
         createAnimation();
+        createBlocks();
     }
 
     public void Position(int posX, int posY) {
@@ -77,7 +77,7 @@ public class MapRenderer {
                         int posY = height - y - 1;
 
                         if (map.tiles[x][y] == Map.TILE) mapCache.add(tile, posX, posY, 1, 1);
-                        if (map.tiles[x][y] == Map.SPIKES) mapCache.add(spikes, posX, posY, 1, 1);
+                        //if (map.tiles[x][y] == Map.SPIKES) mapCache.add(spikes, posX, posY, 1, 1);
                     }
                 }
 

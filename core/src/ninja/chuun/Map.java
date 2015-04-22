@@ -14,7 +14,7 @@ public class Map {
     static final int SPIKES = 0x00ff00;
     static final int SCIENTIST = 0x0000ff;
     static final int COLLECTABLE = 0xffff00;
-    static final int END = 0xff000ff;
+    static final int END = 0xff00ff;
 
     int[][] tiles;
     Pixmap pixelmap;
