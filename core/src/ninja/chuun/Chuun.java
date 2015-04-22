@@ -33,16 +33,7 @@ public class Chuun {
 
     boolean grounded = false;
 
-    private long gravityTime;
-
-    private Vector2 supremeSpeed = new Vector2(0, 0);
-    private float gravAcceleration = 10;
     private float Acceleration = 20f;
-    private Vector2 supremeAcceleration = new Vector2(0, 0); //wVector2(1000, -500);
-    private double movementTimeStep = 0.001;
-    private boolean jumping;
-
-    private long startTime = System.nanoTime()/1000000000;
 
     Rectangle[] collisionHalo = {new Rectangle(), new Rectangle(), new Rectangle(), new Rectangle(), new Rectangle()};
 
