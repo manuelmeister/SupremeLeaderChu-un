@@ -15,7 +15,7 @@ public class Chuun {
     static final byte LEFT = -1;
     static final byte RIGHT = 1;
 
-    static final Vector2 STARTPOSITION = new Vector2(50, 50);
+    static Vector2 pos = new Vector2(50,50);
 
     float stateTime = 0;
 
@@ -34,8 +34,6 @@ public class Chuun {
     private long startTime = System.nanoTime()/1000000000;
 
     Rectangle[] collisionHalo = {new Rectangle(), new Rectangle(), new Rectangle(), new Rectangle(), new Rectangle()};
-
-    Vector2 pos = new Vector2();
 
     byte state = SPAWN;
     byte dir = LEFT;

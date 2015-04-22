@@ -44,7 +44,7 @@ public class MapRenderer {
     public MapRenderer(Map map) {
         this.map = map;
         this.camera = new OrthographicCamera(24, 16);
-        this.camera.position.set(map.chuun.pos.x, map.chuun.pos.y, 0);
+        this.camera.position.set(Chuun.pos.x, Chuun.pos.y, 0);
         this.batch = new SpriteBatch(map.tiles.length * map.tiles.length);
         this.mapCache = new SpriteCache(map.tiles.length * map.tiles.length, false);
 
