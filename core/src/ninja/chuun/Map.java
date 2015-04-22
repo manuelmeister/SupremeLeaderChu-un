@@ -69,6 +69,6 @@ public class Map {
     }
 
     public void update(float delta) {
-        chuun.update();
+        chuun.update(delta);
     }
 }
