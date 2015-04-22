@@ -16,50 +16,36 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 
 public class SupremeGame extends ApplicationAdapter {
-	private Sprite chu_unImage;
-	private Sprite blackImage;
+	//private Sprite chu_unImage;
+	//private Sprite blackImage;
 	//private Sound dropSound;
 	//private Music rainMusic;
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
-	private Rectangle chu_un;
+	//private Rectangle chu_un;
 
 	private double supremeSpeed;
 	private double supremeGravitySpeed;
 
 	Map map;
 
-	private Array<Rectangle> scientists;
-	private long lastScientistTime;
-	private long gravityTime;
+	//private Array<Rectangle> scientists;
+	//private long lastScientistTime;
+	//private long gravityTime;
 	private long startTime = System.nanoTime()/1000000000;
 
-	private double gravityAcceleration = -500;
-	private double supremeAcceleration = 1000;
-	private double movementTimeStep = 0.001;
+	//private double gravityAcceleration = -500;
+	//private double supremeAcceleration = 1000;
+	//private double movementTimeStep = 0.001;
 
-	MapRenderer supremeAnimation;
+	MapRenderer mapRenderer;
 	ModelInstance instance;
 	AnimationController controller;
 
 	int counter = 0;
 
-	private Rectangle floor;
-	private Rectangle wall;
-
-
-
-
-	private void spawnScientist() {
-		Rectangle scientist = new Rectangle();
-		scientist.x = MathUtils.random(0, 800 - 32);
-		scientist.y = 480;
-		scientist.width = 32;
-		scientist.height = 32;
-		scientists.add(scientist);
-		lastScientistTime = TimeUtils.nanoTime();
-
-	}
+	//private Rectangle floor;
+	//private Rectangle wall;
 
 
 	@Override
@@ -67,12 +53,12 @@ public class SupremeGame extends ApplicationAdapter {
 
 		//load animations
 		Map	map = new Map();
-		supremeAnimation = new MapRenderer(map);
+		mapRenderer = new MapRenderer(map);
 
 		// load the images for the chu_un, 32 pixels
 		//chu_unImage = new Texture(Gdx.files.internal("chu_un.png"));
-		Texture texture = new Texture(Gdx.files.internal("bucket.png"));
-		blackImage = new Sprite(texture);
+		//Texture texture = new Texture(Gdx.files.internal("bucket.png"));
+		//blackImage = new Sprite(texture);
 
 		//load and set camera
 		camera = new OrthographicCamera();
@@ -81,6 +67,8 @@ public class SupremeGame extends ApplicationAdapter {
 		//instantiate SpriteBatch
 		batch = new SpriteBatch();
 
+
+		/* old code (from testing)
 		//Create SupremeRectangled
 		chu_un = new Rectangle();
 		chu_un.x = 50;
@@ -105,7 +93,7 @@ public class SupremeGame extends ApplicationAdapter {
 
 		scientists = new Array<Rectangle>();
 		spawnScientist();
-
+		*/
 
 	}
 
@@ -127,10 +115,16 @@ public class SupremeGame extends ApplicationAdapter {
 		//Set Camera matrix
 		batch.setProjectionMatrix(camera.combined);
 
+		//update chuun
+		map.chuun.updateState();
+		map.chuun.update();
 
-		// *** Estimate movements ***
 
-		/*// Mouse movements
+
+		/* Movement estimations ar now lovated inside the Chuun class
+
+
+		// Mouse movements
 		if(Gdx.input.isTouched()) {
 			Vector3 touchPos = new Vector3();
 			touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
@@ -143,7 +137,7 @@ public class SupremeGame extends ApplicationAdapter {
 			touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 			camera.unproject(touchPos);
 			chu_un.x = touchPos.x - 64 / 2;
-		}*/
+		}
 
 		//Gravity Movements
 		boolean checkTimeMovements = false;
@@ -222,12 +216,9 @@ public class SupremeGame extends ApplicationAdapter {
 		if(chu_un.x > Gdx.graphics.getWidth() - map.chuun.getBounds().x) chu_un.x = Gdx.graphics.getWidth() - map.chuun.getBounds().x;
 		if(chu_un.x < 0) chu_un.x = 0;
 
-		supremeAnimation.Position((int) chu_un.x, (int) chu_un.y);
-		supremeAnimation.render();
-
-
-
-		if(TimeUtils.nanoTime() - lastScientistTime > 1000000000) spawnScientist();
+		mapRenderer.Position((int) chu_un.x, (int) chu_un.y);
+		mapRenderer.render();
+		*/
 
 		/*Iterator<Rectangle> iter = scientists.iterator();
 		while(iter.hasNext()) {
@@ -241,18 +232,19 @@ public class SupremeGame extends ApplicationAdapter {
 
 
 
+		if (map.chuun.bounds.overlaps(map.endDoor.bounds)) {
+			//TODO embed game over screen
+			System.out.println("Game over");//game.setScreen(new GameOverScreen(game));
+		}
+
+		if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+			//TODO embed main menu screen
+			System.out.println("Main menu");//game.setScreen(new MainMenu(game));
+		}
 
 		//Batch Render-Code
 		batch.begin();
-		batch.draw(blackImage, floor.x, floor.y, floor.getWidth(), floor.getHeight());
-		batch.draw(blackImage, wall.x, wall.y, wall.getWidth(), wall.getHeight());//, 500, 30);
-		//floor.width=blackImage.getWidth();
-		//floor.height=blackImage.getHeight();
 
-		/*batch.draw(chu_unImage, chu_un.x, chu_un.y);
-		for(Rectangle raindrop: scientists) {
-			batch.draw(chu_unImage, raindrop.x, raindrop.y);
-		}*/
 		batch.end();
 
 	}

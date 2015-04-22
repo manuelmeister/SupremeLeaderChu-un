@@ -19,7 +19,7 @@ public class Map {
     int[][] tiles;
     Pixmap pixelmap;
     Chuun chuun;
-    private EndDoor endDoor;
+    EndDoor endDoor;
     private ArrayList<Scientist> scientists;
     private ArrayList<Spike> spikes;
     private ArrayList<Collectable> collectables;
