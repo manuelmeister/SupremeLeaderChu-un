@@ -24,11 +24,15 @@ public class IntroScreen implements Screen {
     private OrthographicCamera camera;
     private SpriteBatch batch;
 
+
+    //TODO add intro texture
+    //private Texture intro = new Texture()
+
     //Map map;
 
     private long startTime = System.nanoTime()/1000000000;
 
-    MapRenderer mapRenderer;
+    //MapRenderer mapRenderer;
     ModelInstance instance;
     AnimationController controller;
 
@@ -36,8 +40,8 @@ public class IntroScreen implements Screen {
     public void show() {
 
         //load animations
-        Map	map = new Map();
-        mapRenderer = new MapRenderer(map);
+        //Map	map = new Map();
+        //mapRenderer = new MapRenderer(map);
 
         //load and set camera
         camera = new OrthographicCamera();
@@ -55,7 +59,7 @@ public class IntroScreen implements Screen {
         Gdx.gl.glClearColor(0, 0.8f, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        mapRenderer.render(delta);
+        //mapRenderer.render(delta);
 
         if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)){
             game.setScreen(new GameScreen(game));
@@ -64,7 +68,7 @@ public class IntroScreen implements Screen {
 
         //Batch Render-Code
         batch.begin();
-
+        //batch.draw(texture);
         batch.end();
 
     }
@@ -87,7 +91,7 @@ public class IntroScreen implements Screen {
     @Override
     public void hide() {
         Gdx.app.debug("SupremeLeaderChu-un", "dispose game screen");
-        mapRenderer.dispose();
+        //mapRenderer.dispose();
     }
 
     @Override
