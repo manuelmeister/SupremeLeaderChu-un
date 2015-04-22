@@ -194,6 +194,7 @@ public class Chuun {
         int[][] tiles = map.tiles;
         int bodyTile = tiles[(int)bottomLeft.x][map.tiles[0].length - 1 - (int)bottomLeft.y];
         int frontTile = tiles[(int)bottomRight.x][map.tiles[0].length - 1 - (int)bottomRight.y];
+        //TODO adjust tile3 and tile4
         int tile3 = tiles[(int)topRight.x][map.tiles[0].length - 1 - (int)topRight.y];
         int tile4 = tiles[(int)topLeft.x][map.tiles[0].length - 1 - (int)topLeft.y];
 
