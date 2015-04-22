@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
 import com.badlogic.gdx.math.MathUtils;
@@ -25,8 +26,8 @@ public class IntroScreen implements Screen {
     private SpriteBatch batch;
 
 
-    //TODO add intro texture
-    //private Texture intro = new Texture()
+    private Texture intro = new Texture(Gdx.files.internal("chu-un.png"));
+    private TextureRegion introRegion = new TextureRegion(intro);
 
     //Map map;
 
@@ -68,7 +69,7 @@ public class IntroScreen implements Screen {
 
         //Batch Render-Code
         batch.begin();
-        //batch.draw(texture);
+        batch.draw(introRegion, 0, 0);
         batch.end();
 
     }
