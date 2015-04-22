@@ -15,6 +15,8 @@ public class Chuun {
     static final byte LEFT = -1;
     static final byte RIGHT = 1;
 
+    static final Vector2 STARTPOSITION = new Vector2(50, 50);
+
     float stateTime = 0;
 
     Map map;
