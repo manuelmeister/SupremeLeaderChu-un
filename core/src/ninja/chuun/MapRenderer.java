@@ -116,6 +116,16 @@ public class MapRenderer {
         //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
         stateTime += Gdx.graphics.getDeltaTime();
 
+        mapCache.begin();
+
+        for (int blockX = 0; blockX < 6; blockX++) {
+            for (int blockY = 0; blockY < 4; blockY++) {
+                mapCache.draw(blocks[blockX][blockY]);
+            }
+        }
+
+        mapCache.end();
+
         spriteBatch.begin();
         renderChuun();
         spriteBatch.end();
