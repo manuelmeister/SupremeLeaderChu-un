@@ -28,22 +28,6 @@ public class Map {
         loadMap(1);
     }
 
-    public int getPixelWidth() {
-        if (pixelmap != null){
-            return pixelmap.getWidth();
-        }else {
-            return 0;
-        }
-    }
-
-    public int getPixelHeight() {
-        if (pixelmap != null){
-            return pixelmap.getHeight();
-        }else {
-            return 0;
-        }
-    }
-
     private void loadMap(int level) {
         pixelmap = new Pixmap(Gdx.files.internal("levels/level" + level + ".png"));
         tiles = new int[pixelmap.getWidth()][pixelmap.getHeight()];
@@ -82,5 +66,9 @@ public class Map {
 
     public boolean isDeadly(int tile) {
         return tile == SPIKES;
+    }
+
+    public void update(float delta) {
+        chuun.update();
     }
 }
