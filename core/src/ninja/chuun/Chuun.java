@@ -15,7 +15,7 @@ public class Chuun {
     static final byte LEFT = -1;
     static final byte RIGHT = 1;
 
-    static Vector2 pos = new Vector2(50,50);
+    Vector2 pos = new Vector2(50,50);
 
     float stateTime = 0;
 
@@ -42,8 +42,8 @@ public class Chuun {
         this.map = map;
 
         //8 empty pixels on the left of original Sprite
-        this.pos.x = x;
-        this.pos.y = y;
+        pos.x = x;
+        pos.y = y;
         //bouds of original Sprite ar 16*32
         bounds.width = 1*this.SCALE.x;
         bounds.height = 1*this.SCALE.y;
@@ -194,8 +194,6 @@ public class Chuun {
         int[][] tiles = map.tiles;
         int bodyTile = tiles[(int)bottomLeft.x][map.tiles[0].length - 1 - (int)bottomLeft.y];
         int frontTile = tiles[(int)bottomRight.x][map.tiles[0].length - 1 - (int)bottomRight.y];
-
-        //TODO adjust tile3 and tile4
         int frontUpperTile = tiles[(int)topRight.x][map.tiles[0].length - 1 - (int)topRight.y];
         int bodyUpperTile = tiles[(int)topLeft.x][map.tiles[0].length - 1 - (int)topLeft.y];
 
