@@ -16,6 +16,13 @@ public class Chuun {
     static final byte RIGHT = 1;
 
     Vector2 pos = new Vector2(50,50);
+    Vector2 accel = new Vector2();
+    Vector2 vel = new Vector2();
+
+    static final float GRAVITY = 20.0f;
+    static final float MAX_VEL = 6f;
+    static final float DAMP = 0.90f;
+    static final float JUMP_VELOCITY = 10f;
 
     float stateTime = 0;
 
@@ -24,11 +31,13 @@ public class Chuun {
     public Rectangle bounds = new Rectangle();
     static final Vector2 SCALE = new Vector2(1, 1);
 
+    boolean grounded = false;
+
     private long gravityTime;
 
     private Vector2 supremeSpeed = new Vector2(0, 0);
     private float gravAcceleration = 10;
-    private float Acceleration = 20;
+    private float Acceleration = 20f;
     private Vector2 supremeAcceleration = new Vector2(0, 0); //wVector2(1000, -500);
     private double movementTimeStep = 0.001;
     private boolean jumping;
@@ -44,11 +53,11 @@ public class Chuun {
         this.map = map;
 
         //8 empty pixels on the left of original Sprite
-        pos.x = 6;//x;
-        pos.y = 9;//y;
+        pos.x = x;//x;
+        pos.y = y;//y;
         //bouds of original Sprite ar 16*32w
-        bounds.width = 1*0.5f*this.SCALE.x;
-        bounds.height = 1*this.SCALE.y;
+        bounds.width = 0.5f;
+        bounds.height = 1;
         bounds.x = pos.x + 8;
         bounds.y = pos.y;
 
@@ -56,117 +65,36 @@ public class Chuun {
         this.dir = LEFT;
     }
 
-    public void update(){
+    public void update(float deltaTime){
         updateState();
-        //tryMove();
 
-        //Gravity Movements (Check if time in microseconds has changed)
-        boolean checkTimeMovements = false;
-        if (gravityTime != ((System.nanoTime() / 1000000) - startTime)) {
-            checkTimeMovements = true;
-            gravityTime = ((System.nanoTime() / 1000000) - startTime);
-        }
+        accel.y = -GRAVITY;
+        accel.scl(deltaTime);
+        vel.add(accel);
 
+        if (accel.x == 0) vel.x *= DAMP;
+        if (vel.x > MAX_VEL) vel.x = MAX_VEL;
+        if (vel.x < -MAX_VEL) vel.x = -MAX_VEL;
 
+        vel.scl(deltaTime);
 
-        /*
+        tryMove();
 
-        Key Movements
+        vel.scl(1.0f / deltaTime);
 
-         */
-
-        boolean moved = false;
-        if(Gdx.input.isKeyPressed(Input.Keys.A)){
-            if (checkTimeMovements) {
-                supremeSpeed.x -= movementTimeStep*100*Acceleration; //movementTimeStep * supremeAcceleration.x;
-            }
-            moved = true;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            if (checkTimeMovements) {
-                supremeSpeed.x += movementTimeStep*100*Acceleration; //movementTimeStep * supremeAcceleration.x;
-            }
-            moved = true;
-
-        }
-        //Initiate Jump
-        if(Gdx.input.isKeyPressed(Input.Keys.W) && state != JUMP){
-            supremeSpeed.y = 10;
-            System.out.println("JUMP!! jump velocity:  "+supremeSpeed.y);
-            jumping = true;
-        }
-
-
-
-
-        /*
-
-        Automatic Movements
-
-         */
-
-        //Friction (slowing down)
-        if (!moved){
-            if (checkTimeMovements) {
-                if (supremeSpeed.x > 0) supremeSpeed.x -= 1;
-                if (supremeSpeed.x < 0) supremeSpeed.x += 1;
-
-                if ((supremeSpeed.x<1) && (supremeSpeed.x>-1)){
-                    supremeSpeed.x = 0;
-                    supremeAcceleration.x = 0;
-                }
+        if (state == SPAWN) {
+            if (stateTime > 0.4f) {
+                state = IDLE;
             }
         }
 
-        //Free fall
-        if (checkTimeMovements){
-            //System.out.println("GravityTime: "+ gravityTime);
-            supremeAcceleration.y = -gravAcceleration;//movementTimeStep * (supremeSpeed.y + movementTimeStep * supremeAcceleration.y / 2);
-            supremeSpeed.y += movementTimeStep * supremeAcceleration.y * 50;
-            System.out.println("Freefall velocity:    "+supremeSpeed.y);
+        if (state == DYING) {
+            if (stateTime > 0.4f) {
+                state = SPAWN;
+            }
         }
 
-
-
-
-        /*
-
-        Physical Boundaries
-
-         */
-
-        //max Speed
-        if (supremeSpeed.x > 6) supremeSpeed.x = 6;
-        if (supremeSpeed.x < -6) supremeSpeed.x = -6;
-        if (supremeSpeed.y > 20) supremeSpeed.y = 20;
-        if (supremeSpeed.y < -20) supremeSpeed.y = -20;
-
-
-        //MOVE (walk, jump and fall)
-        bounds.y += supremeSpeed.y;
-        bounds.x += supremeSpeed.x;
-
-
-        //stay in stage
-        if(bounds.x > Gdx.graphics.getWidth() - bounds.width - 42) bounds.x = Gdx.graphics.getWidth() - bounds.width - 42;
-        if(bounds.x < 10) bounds.x = 10;
-
-        //stay on floor
-        //TODO take this out! supposed to work with collision detection
-        //if(bounds.y > Gdx.graphics.getHeight() - bounds.height - 10) {
-        //    bounds.y = Gdx.graphics.getHeight() - bounds.height;
-        //}
-        if(bounds.y < 10) {
-            bounds.y = 10;
-            //supremeSpeed.y = 0;
-        }
-
-        pos.x = bounds.x;
-        pos.y = bounds.y;
-
-        System.out.println("x: "+ bounds.x+ " ;  y: "+ bounds.y+" ;  \taccel: "+supremeAcceleration.x+" ; "+supremeAcceleration.y+" ;  \tvel: "+supremeSpeed.x+" ; "+supremeSpeed.y);
-
-
+        stateTime += deltaTime;
     }
 
     public void updateState() {
@@ -179,44 +107,46 @@ public class Chuun {
             this.dir = RIGHT;
             movement = true;
         }
-        if (jumping) {
+        if (Gdx.input.isKeyPressed(Input.Keys.W) && this.state != JUMP) {
             this.state = JUMP;
+            vel.y = JUMP_VELOCITY;
             movement = true;
+            grounded = false;
         }
         if (movement) {
             this.state = RUN;
+            accel.x = Acceleration * dir;
         } else {
             this.state = IDLE;
+            accel.x = 0;
         }
     }
 
 
     private void tryMove () {
-        bounds.x += supremeSpeed.x;
+        bounds.x += vel.x;
         setCollidableRects();
-        for (int i = 0; i < collisionHalo.length; i++) {
-            Rectangle rect = collisionHalo[i];
+        for (Rectangle rect : collisionHalo) {
             if (bounds.overlaps(rect)) {
-                if (supremeSpeed.x < 0)
+                if (vel.x < 0)
                     bounds.x = rect.x + rect.width + 0.01f;
                 else
                     bounds.x = rect.x - bounds.width - 0.01f;
-                supremeSpeed.x = 0;
+                vel.x = 0;
             }
         }
 
-        bounds.y += supremeSpeed.y;
+        bounds.y += vel.y;
         setCollidableRects();
-        for (int i = 0; i < collisionHalo.length; i++) {
-            Rectangle rect = collisionHalo[i];
+        for (Rectangle rect : collisionHalo) {
             if (bounds.overlaps(rect)) {
-                if (supremeSpeed.y < 0) {
+                if (vel.y < 0) {
                     bounds.y = rect.y + rect.height + 0.01f;
-                    jumping = false;
-                    if (state != DYING && state != SPAWN) state = Math.abs(supremeAcceleration.x) > 0.1f ? RUN : IDLE;
+                    grounded = true;
+                    if (state != DYING && state != SPAWN) state = Math.abs(accel.x) > 0.1f ? RUN : IDLE;
                 } else
                     bounds.y = rect.y - bounds.height - 0.01f;
-                supremeSpeed.y = 0;
+                vel.y = 0;
             }
         }
 
@@ -227,10 +157,10 @@ public class Chuun {
 
 
     public void setCollidableRects(){
-        Vector2 bottomLeft = new Vector2(bounds.x, bounds.y);
-        Vector2 bottomRight = new Vector2((bounds.x + bounds.width), bounds.y);
-        Vector2 topRight = new Vector2((bounds.x + bounds.width), (bounds.y + bounds.height));
-        Vector2 topLeft = new Vector2(bounds.x, (bounds.y + bounds.height));
+        Vector2 bottomLeft = new Vector2((int)bounds.x, (int)Math.floor(bounds.y));
+        Vector2 bottomRight = new Vector2((int)(bounds.x + bounds.width), (int)Math.floor(bounds.y));
+        Vector2 topRight = new Vector2((int)(bounds.x + bounds.width), (int)(bounds.y + bounds.height));
+        Vector2 topLeft = new Vector2((int)bounds.x, (int)(bounds.y + bounds.height));
 
         int[][] tiles = map.tiles;
         int bodyTile = tiles[(int)bottomLeft.x][map.tiles[0].length - 1 - (int)bottomLeft.y];
