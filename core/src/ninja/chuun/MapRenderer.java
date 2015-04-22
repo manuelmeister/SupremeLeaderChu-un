@@ -1,6 +1,7 @@
 package ninja.chuun;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -19,6 +20,7 @@ public class MapRenderer {
 
     Map map;
     OrthographicCamera camera;
+    FPSLogger fps = new FPSLogger();
 
     SpriteCache mapCache;
     SpriteBatch batch = new SpriteBatch(5460);
@@ -39,13 +41,13 @@ public class MapRenderer {
     float stateTime;
     Animation chuun_right;
     Animation chuun_left;
-    TextureRegion chuun_resting;
+    Animation chuun_resting;
 
 
     public MapRenderer(Map map) {
         this.map = map;
         this.camera = new OrthographicCamera(24, 16);
-        this.camera.position.set(Chuun.pos.x, Chuun.pos.y, 0);
+        this.camera.position.set(map.chuun.pos.x, map.chuun.pos.y, 0);
         this.mapCache = new SpriteCache(map.tiles.length * map.tiles[0].length, false);
         this.blocks = new int[(int) (this.map.tiles.length / 24.0f)][(int) (this.map.tiles[0].length / 16.0f)];
 
@@ -53,13 +55,7 @@ public class MapRenderer {
         createBlocks();
     }
 
-    public void Position(int posX, int posY) {
-        this.posX = posX;
-        this.posY = posY;
-    }
-
     private void createBlocks() {
-
         int width = map.tiles.length;
         int height = map.tiles[0].length;
 
@@ -101,7 +97,7 @@ public class MapRenderer {
         chuun_right = new Animation(CHUUN_RATE, Arrays.copyOfRange(chuunTexture, 1, 8));
         chuun_left = new Animation(CHUUN_RATE, Arrays.copyOfRange(chuunTextureMirrored, 1, 8));
 
-        chuun_resting = chuunTexture[0];
+        chuun_resting = new Animation(0, chuunTexture[0]);
 
         spriteBatch = new SpriteBatch();
         stateTime = 0f;
@@ -113,46 +109,39 @@ public class MapRenderer {
     public void render(float deltaTime) {
         map.chuun.updateState();
 
-        camera.position.lerp(lerpTarget.set(map.chuun.pos,0), 2f * deltaTime);
+        camera.position.lerp(lerpTarget.set(map.chuun.pos, 0), 2f * deltaTime);
         camera.update();
 
         mapCache.setProjectionMatrix(camera.combined);
         //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
         stateTime += Gdx.graphics.getDeltaTime();
 
+        spriteBatch.begin();
+        renderChuun();
+        spriteBatch.end();
+
+        fps.log();
+    }
+
+    private void renderChuun() {
+        Animation animation = null;
+        boolean loopAnimation = true;
         if (map.chuun.state == map.chuun.RUN) {
             if (map.chuun.dir == map.chuun.RIGHT) {
-                currentFrame = chuun_right.getKeyFrame(stateTime, true);
+                animation = chuun_right;
             } else if (map.chuun.dir == map.chuun.LEFT) {
-                currentFrame = chuun_left.getKeyFrame(stateTime, true);
+                animation = chuun_left;
             }
         } else {
-            currentFrame = chuun_resting;
+            animation = chuun_resting;
         }
-
-        spriteBatch.begin();
-        currentFrame.getRegionHeight();
-        spriteBatch.draw(currentFrame, posX, posY, ((float) currentFrame.getRegionWidth()) * scale, ((float) currentFrame.getRegionHeight()) * scale);             // #17
-        spriteBatch.end();
+        currentFrame = animation.getKeyFrame(map.chuun.stateTime,loopAnimation);
+        batch.draw(currentFrame,map.chuun.pos.x, map.chuun.pos.y, currentFrame.getRegionWidth(), currentFrame.getRegionWidth());
     }
 
-    //@Override
-    public void resize(int width, int height) {
-
-    }
-
-    //@Override
-    public void pause() {
-
-    }
-
-    //@Override
-    public void resume() {
-
-    }
-
-    //@Override
     public void dispose() {
-
+        mapCache.dispose();
+        batch.dispose();
+        tile.getTexture().dispose();
     }
 }
