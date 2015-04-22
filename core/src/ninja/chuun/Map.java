@@ -20,9 +20,9 @@ public class Map {
     Pixmap pixelmap;
     Chuun chuun;
     EndDoor endDoor;
-    private ArrayList<Scientist> scientists;
-    private ArrayList<Spike> spikes;
-    private ArrayList<Collectable> collectables;
+    ArrayList<Scientist> scientists = new ArrayList<Scientist>();
+    ArrayList<Spike> spikes = new ArrayList<Spike>();
+    ArrayList<Collectable> collectables = new ArrayList<Collectable>();
 
     public Map() {
         loadMap(1);
