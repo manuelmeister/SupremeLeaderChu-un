@@ -126,7 +126,7 @@ public class Chuun {
 
         /* Stay in window
         if(chu_un.x < 0) chu_un.x = 0;
-        if(this.pos.x > Gdx.graphics.getWidth() - supremeAnimation.getWidth()*supremeScale) this.pos.x = Gdx.graphics.getWidth() - supremeAnimation.getWidth()*supremeScale;
+        if(this.pos.x > Gdx.graphics.getWidth() - mapRenderer.getWidth()*supremeScale) this.pos.x = Gdx.graphics.getWidth() - mapRenderer.getWidth()*supremeScale;
         */
     }
 
