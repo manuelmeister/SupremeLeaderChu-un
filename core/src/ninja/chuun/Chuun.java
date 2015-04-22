@@ -27,7 +27,9 @@ public class Chuun {
     private long gravityTime;
 
     private Vector2 supremeSpeed = new Vector2(0, 0);
-    private Vector2 supremeAcceleration = new Vector2(1000, -500);
+    private float gravAcceleration = 10;
+    private float Acceleration = 20;
+    private Vector2 supremeAcceleration = new Vector2(0, 0); //wVector2(1000, -500);
     private double movementTimeStep = 0.001;
     private boolean jumping;
 
@@ -42,10 +44,10 @@ public class Chuun {
         this.map = map;
 
         //8 empty pixels on the left of original Sprite
-        pos.x = x;
-        pos.y = y;
-        //bouds of original Sprite ar 16*32
-        bounds.width = 1*this.SCALE.x;
+        pos.x = 6;//x;
+        pos.y = 9;//y;
+        //bouds of original Sprite ar 16*32w
+        bounds.width = 1*0.5f*this.SCALE.x;
         bounds.height = 1*this.SCALE.y;
         bounds.x = pos.x + 8;
         bounds.y = pos.y;
@@ -56,83 +58,115 @@ public class Chuun {
 
     public void update(){
         updateState();
-        tryMove();
+        //tryMove();
 
-        //Gravity Movements
+        //Gravity Movements (Check if time in microseconds has changed)
         boolean checkTimeMovements = false;
         if (gravityTime != ((System.nanoTime() / 1000000) - startTime)) {
             checkTimeMovements = true;
             gravityTime = ((System.nanoTime() / 1000000) - startTime);
         }
 
-        //Estimate Gravity Speed
-        if (checkTimeMovements){
-            System.out.println("GravityTime: "+ gravityTime);
-            bounds.y -= movementTimeStep * (supremeSpeed.y + movementTimeStep * supremeAcceleration.y / 2);
-            supremeSpeed.y += movementTimeStep * supremeAcceleration.y;
-        }
 
-        //Initiate Jump
-        if(Gdx.input.isKeyPressed(Input.Keys.W) && state != JUMP){
-            supremeSpeed.y = 10;
-        }
 
-        // Key Movements
+        /*
+
+        Key Movements
+
+         */
+
         boolean moved = false;
         if(Gdx.input.isKeyPressed(Input.Keys.A)){
             if (checkTimeMovements) {
-                supremeSpeed.x -= movementTimeStep * supremeAcceleration.x;
+                supremeSpeed.x -= movementTimeStep*100*Acceleration; //movementTimeStep * supremeAcceleration.x;
             }
             moved = true;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             if (checkTimeMovements) {
-                supremeSpeed.x += movementTimeStep * supremeAcceleration.x;
+                supremeSpeed.x += movementTimeStep*100*Acceleration; //movementTimeStep * supremeAcceleration.x;
             }
             moved = true;
 
         }
+        //Initiate Jump
+        if(Gdx.input.isKeyPressed(Input.Keys.W) && state != JUMP){
+            supremeSpeed.y = 10;
+            System.out.println("JUMP!! jump velocity:  "+supremeSpeed.y);
+            jumping = true;
+        }
+
+
+
+
+        /*
+
+        Automatic Movements
+
+         */
+
+        //Friction (slowing down)
         if (!moved){
             if (checkTimeMovements) {
-                supremeSpeed.x /= 2;
-                if (supremeSpeed.x<0.1){
+                if (supremeSpeed.x > 0) supremeSpeed.x -= 1;
+                if (supremeSpeed.x < 0) supremeSpeed.x += 1;
+
+                if ((supremeSpeed.x<1) && (supremeSpeed.x>-1)){
                     supremeSpeed.x = 0;
+                    supremeAcceleration.x = 0;
                 }
             }
         }
 
+        //Free fall
+        if (checkTimeMovements){
+            //System.out.println("GravityTime: "+ gravityTime);
+            supremeAcceleration.y = -gravAcceleration;//movementTimeStep * (supremeSpeed.y + movementTimeStep * supremeAcceleration.y / 2);
+            supremeSpeed.y += movementTimeStep * supremeAcceleration.y * 50;
+            System.out.println("Freefall velocity:    "+supremeSpeed.y);
+        }
+
+
+
+
+        /*
+
+        Physical Boundaries
+
+         */
+
         //max Speed
-        if (supremeSpeed.x > 10) supremeSpeed.x = 10;
-        if (supremeSpeed.x < -10) supremeSpeed.x = -10;
+        if (supremeSpeed.x > 6) supremeSpeed.x = 6;
+        if (supremeSpeed.x < -6) supremeSpeed.x = -6;
+        if (supremeSpeed.y > 20) supremeSpeed.y = 20;
+        if (supremeSpeed.y < -20) supremeSpeed.y = -20;
 
-
-        //stay in stage
-        if(bounds.x > Gdx.graphics.getWidth() - bounds.width) bounds.x = Gdx.graphics.getWidth() - bounds.width;
-        if(bounds.x < 0) bounds.x = 0;
-
-        System.out.println("x: "+ bounds.x+ " ;  y: "+ bounds.y);
 
         //MOVE (walk, jump and fall)
         bounds.y += supremeSpeed.y;
         bounds.x += supremeSpeed.x;
 
 
-        /* stay on floor
-        if (this.overlaps(floor)) {
-            this.pos.y = floor.y + floor.height;
-            supremeGravitySpeed = 0;
-        }*/
+        //stay in stage
+        if(bounds.x > Gdx.graphics.getWidth() - bounds.width - 42) bounds.x = Gdx.graphics.getWidth() - bounds.width - 42;
+        if(bounds.x < 10) bounds.x = 10;
 
-        /* collide wall
-        if (chu_un.overlaps(wall)){
-            this.pos.x = wall.x + wall.getWidth();
+        //stay on floor
+        //TODO take this out! supposed to work with collision detection
+        //if(bounds.y > Gdx.graphics.getHeight() - bounds.height - 10) {
+        //    bounds.y = Gdx.graphics.getHeight() - bounds.height;
+        //}
+        if(bounds.y < 10) {
+            bounds.y = 10;
+            //supremeSpeed.y = 0;
         }
-        */
 
-        /* Stay in window
-        if(chu_un.x < 0) chu_un.x = 0;
-        if(this.pos.x > Gdx.graphics.getWidth() - mapRenderer.getWidth()*supremeScale) this.pos.x = Gdx.graphics.getWidth() - mapRenderer.getWidth()*supremeScale;
-        */
+        pos.x = bounds.x;
+        pos.y = bounds.y;
+
+        System.out.println("x: "+ bounds.x+ " ;  y: "+ bounds.y+" ;  \taccel: "+supremeAcceleration.x+" ; "+supremeAcceleration.y+" ;  \tvel: "+supremeSpeed.x+" ; "+supremeSpeed.y);
+
+
     }
 
     public void updateState() {
