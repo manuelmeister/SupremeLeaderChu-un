@@ -46,7 +46,7 @@ public class MapRenderer {
         this.map = map;
         this.camera = new OrthographicCamera(24, 16);
         this.camera.position.set(Chuun.pos.x, Chuun.pos.y, 0);
-        this.batch = new SpriteBatch(map.tiles.length * map.tiles[0].length);
+        this.batch = new SpriteBatch(5460);
         this.mapCache = new SpriteCache(map.tiles.length * map.tiles.length, false);
 
         createBlocks();

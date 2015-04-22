@@ -2,6 +2,7 @@ package ninja.chuun.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import ninja.chuun.GameScreen;
 import ninja.chuun.SupremeGame;
 
 public class DesktopLauncher {
