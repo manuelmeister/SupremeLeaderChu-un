@@ -136,7 +136,7 @@ public class MapRenderer {
             animation = chuun_resting;
         }
         currentFrame = animation.getKeyFrame(map.chuun.stateTime,loopAnimation);
-        batch.draw(currentFrame,map.chuun.pos.x, map.chuun.pos.y, currentFrame.getRegionWidth(), currentFrame.getRegionWidth());
+        spriteBatch.draw(currentFrame,map.chuun.pos.x, map.chuun.pos.y, currentFrame.getRegionWidth(), currentFrame.getRegionWidth());
     }
 
     public void dispose() {
