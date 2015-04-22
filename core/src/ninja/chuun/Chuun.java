@@ -45,8 +45,8 @@ public class Chuun {
         this.pos.x = x;
         this.pos.y = y;
         //bouds of original Sprite ar 16*32
-        bounds.width = 16*this.SCALE.x;
-        bounds.height = 32*this.SCALE.y;
+        bounds.width = 1*this.SCALE.x;
+        bounds.height = 1*this.SCALE.y;
         bounds.x = pos.x + 8;
         bounds.y = pos.y;
 
@@ -194,11 +194,12 @@ public class Chuun {
         int[][] tiles = map.tiles;
         int bodyTile = tiles[(int)bottomLeft.x][map.tiles[0].length - 1 - (int)bottomLeft.y];
         int frontTile = tiles[(int)bottomRight.x][map.tiles[0].length - 1 - (int)bottomRight.y];
-        //TODO adjust tile3 and tile4
-        int tile3 = tiles[(int)topRight.x][map.tiles[0].length - 1 - (int)topRight.y];
-        int tile4 = tiles[(int)topLeft.x][map.tiles[0].length - 1 - (int)topLeft.y];
 
-        if (state != DYING && (map.isDeadly(bodyTile) || map.isDeadly(frontTile) || map.isDeadly(tile3) || map.isDeadly(tile4))) {
+        //TODO adjust tile3 and tile4
+        int frontUpperTile = tiles[(int)topRight.x][map.tiles[0].length - 1 - (int)topRight.y];
+        int bodyUpperTile = tiles[(int)topLeft.x][map.tiles[0].length - 1 - (int)topLeft.y];
+
+        if (state != DYING && (map.isDeadly(bodyTile) || map.isDeadly(frontTile) || map.isDeadly(frontUpperTile) || map.isDeadly(bodyUpperTile))) {
             state = DYING;
             stateTime = 0;
         }
@@ -214,11 +215,11 @@ public class Chuun {
             collisionHalo[1].set((int)bottomRight.x, (int)bottomRight.y, 1, 1);
         else
             collisionHalo[1].set(-1, -1, 0, 0);
-        if (tile3 == Map.TILE)
+        if (frontUpperTile == Map.TILE)
             collisionHalo[2].set((int)topRight.x, (int)topRight.y, 1, 1);
         else
             collisionHalo[2].set(-1, -1, 0, 0);
-        if (tile4 == Map.TILE)
+        if (bodyUpperTile == Map.TILE)
             collisionHalo[3].set((int)topLeft.x, (int)topLeft.y, 1, 1);
         else
             collisionHalo[3].set(-1, -1, 0, 0);
