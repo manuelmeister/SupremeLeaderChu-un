@@ -105,6 +105,13 @@ public class Chuun {
         if (supremeSpeed.x > 10) supremeSpeed.x = 10;
         if (supremeSpeed.x < -10) supremeSpeed.x = -10;
 
+
+        //stay in stage
+        if(bounds.x > Gdx.graphics.getWidth() - bounds.width) bounds.x = Gdx.graphics.getWidth() - bounds.width;
+        if(bounds.x < 0) bounds.x = 0;
+
+        System.out.println("x: "+ bounds.x+ " ;  y: "+ bounds.y);
+
         //MOVE (walk, jump and fall)
         bounds.y += supremeSpeed.y;
         bounds.x += supremeSpeed.x;
