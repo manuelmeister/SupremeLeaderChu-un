@@ -1,14 +1,13 @@
 package ninja.chuun;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.FPSLogger;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.SpriteCache;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
 import java.util.Arrays;
@@ -22,6 +21,8 @@ public class MapRenderer {
     Map map;
     OrthographicCamera camera;
     FPSLogger fps = new FPSLogger();
+
+    ShapeRenderer debugRenderer = new ShapeRenderer();
 
     SpriteCache mapCache;
     SpriteBatch batch = new SpriteBatch(5460);
@@ -88,7 +89,7 @@ public class MapRenderer {
         this.tile = new TextureRegion(new Texture(Gdx.files.internal("tile32.png")), 0, 0, 32, 32);
         walkSheet = new Texture(Gdx.files.internal("chu-un.png"));
 
-        TextureRegion[] chuunTexture = new TextureRegion(walkSheet).split(32,32)[0];
+        TextureRegion[] chuunTexture = new TextureRegion(walkSheet).split(32, 32)[0];
 
         TextureRegion[] chuunTextureMirrored = new TextureRegion(walkSheet).split(32, 32)[0];
         for (TextureRegion textureRegion : chuunTextureMirrored) {
@@ -110,8 +111,9 @@ public class MapRenderer {
     public void render(float deltaTime) {
         map.chuun.updateState();
 
-        camera.position.lerp(lerpTarget.set(map.chuun.pos, 0), 2f * deltaTime);
+        camera.position.lerp(lerpTarget.set(map.chuun.pos, 0), 10f * deltaTime);
         camera.update();
+
 
         mapCache.setProjectionMatrix(camera.combined);
         //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
@@ -132,6 +134,16 @@ public class MapRenderer {
         renderChuun();
         spriteBatch.end();
 
+        debugRenderer.setProjectionMatrix(camera.combined);
+        debugRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        debugRenderer.setColor(new Color(0, 1, 0, 1));
+
+        for (Rectangle rectangle : map.chuun.collisionHalo) {
+            debugRenderer.rect(rectangle.x,rectangle.y,1,1);
+        }
+
+        debugRenderer.end();
+
         fps.log();
     }
 
@@ -148,7 +160,7 @@ public class MapRenderer {
             animation = chuun_resting;
         }
         currentFrame = animation.getKeyFrame(map.chuun.stateTime,loopAnimation);
-        spriteBatch.draw(currentFrame,map.chuun.pos.x, map.chuun.pos.y, currentFrame.getRegionWidth(), currentFrame.getRegionWidth());
+        spriteBatch.draw(currentFrame,Gdx.graphics.getWidth()/2 - map.chuun.bounds.width,Gdx.graphics.getHeight()/2, currentFrame.getRegionWidth(), currentFrame.getRegionWidth());
     }
 
     public void dispose() {

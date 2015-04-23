@@ -19,6 +19,7 @@ public class Map {
     int[][] tiles;
     Pixmap pixelmap;
     Chuun chuun;
+    Spawn spawn;
     EndDoor endDoor;
     ArrayList<Scientist> scientists = new ArrayList<Scientist>();
     ArrayList<Spike> spikes = new ArrayList<Spike>();
@@ -37,7 +38,8 @@ public class Map {
 
                 int pixel = (pixelmap.getPixel(x,y) >>> 8) & 0xffffff;
                 if (pixel == SPAWN) {
-                    chuun = new Chuun(this, x, pixelmap.getHeight() - 1 - y);
+                    spawn = new Spawn(this, x, pixelmap.getHeight() - 1 - y);
+                    chuun = new Chuun(this, spawn.pos);
                     chuun.state = Chuun.SPAWN;
 
                 } else if (pixel == SCIENTIST) {

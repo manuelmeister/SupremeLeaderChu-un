@@ -18,14 +18,14 @@ public class Chuun {
     static final byte LEFT = -1;
     static final byte RIGHT = 1;
 
-    Vector2 pos = new Vector2(50,50);
+    Vector2 pos = new Vector2();
     Vector2 accel = new Vector2();
     Vector2 vel = new Vector2();
 
-    static final float GRAVITY = 20.0f;
+    static final float GRAVITY = 9.81f;
     static final float MAX_VEL = 6f;
-    static final float DAMP = 0.90f;
-    static final float JUMP_VELOCITY = 10f;
+    static final float DAMP = 0.50f;
+    static final float JUMP_VELOCITY = 7f;
 
     float stateTime = 0;
 
@@ -43,13 +43,9 @@ public class Chuun {
     byte state = SPAWN;
     byte dir = LEFT;
 
-    public Chuun(Map map, float x, float y) {
+    public Chuun(Map map, Vector2 pos) {
         this.map = map;
-
-        //8 empty pixels on the left of original Sprite
-        pos.x = x;//x;
-        pos.y = y;//y;
-        //bouds of original Sprite ar 16*32w
+        this.pos = pos;
         bounds.width = 0.5f;
         bounds.height = 1f;
         bounds.x = pos.x + 0.25f;
@@ -108,10 +104,10 @@ public class Chuun {
             grounded = false;
         }
         if (movement) {
-            this.state = RUN;
+            if (state != JUMP) state = RUN;
             accel.x = Acceleration * dir;
         } else {
-            this.state = IDLE;
+            if (state != JUMP) state = IDLE;
             accel.x = 0;
         }
     }
