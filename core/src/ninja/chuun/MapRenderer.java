@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteCache;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 import java.util.Arrays;
@@ -46,6 +47,7 @@ public class MapRenderer {
     Animation chuun_resting;
 
 
+
     public MapRenderer(Map map) {
         this.map = map;
         this.camera = new OrthographicCamera(24, 16);
@@ -75,7 +77,7 @@ public class MapRenderer {
                         int posY = height - y - 1;
 
                         if (map.tiles[x][y] == Map.TILE) mapCache.add(tile, posX, posY, 1, 1);
-                        //if (map.tiles[x][y] == Map.SPIKES) mapCache.add(spikes, posX, posY, 1, 1);
+                        if (map.tiles[x][y] == Map.SPIKES) mapCache.add(spikes, posX, posY, 1, 1);
                     }
                 }
 
@@ -86,7 +88,8 @@ public class MapRenderer {
     }
 
     private void createAnimation() {
-        this.tile = new TextureRegion(new Texture(Gdx.files.internal("tile32.png")), 0, 0, 32, 32);
+        this.tile = new TextureRegion(new Texture(Gdx.files.internal("tile32.png")));
+        this.spikes = new TextureRegion(new Texture(Gdx.files.internal("bucket.png")));
         walkSheet = new Texture(Gdx.files.internal("chu-un.png"));
 
         TextureRegion[] chuunTexture = new TextureRegion(walkSheet).split(32, 32)[0];
@@ -136,11 +139,18 @@ public class MapRenderer {
 
         debugRenderer.setProjectionMatrix(camera.combined);
         debugRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        debugRenderer.setColor(new Color(0, 1, 0, 1));
 
-        for (Rectangle rectangle : map.chuun.collisionHalo) {
-            debugRenderer.rect(rectangle.x,rectangle.y,1,1);
-        }
+        Rectangle[] collisionHalo = map.chuun.collisionHalo;
+        debugRenderer.setColor(new Color(0, 1, 0, 1));
+        debugRenderer.rect(collisionHalo[0].x, collisionHalo[0].y, 1, 1);
+        debugRenderer.setColor(new Color(0, 1, 1, 1));
+        debugRenderer.rect(collisionHalo[1].x, collisionHalo[1].y, 1, 1);
+        debugRenderer.setColor(new Color(1, 0, 0, 1));
+        debugRenderer.rect(collisionHalo[2].x, collisionHalo[2].y, 1, 1);
+        debugRenderer.setColor(new Color(1, 1, 1, 1));
+        debugRenderer.rect(collisionHalo[3].x, collisionHalo[3].y, 1, 1);
+        debugRenderer.setColor(new Color(1, 0, 1, 1));
+        debugRenderer.rect(collisionHalo[4].x, collisionHalo[4].y, 1, 1);
 
         debugRenderer.end();
 

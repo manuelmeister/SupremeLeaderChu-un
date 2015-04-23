@@ -26,7 +26,7 @@ public class Map {
     ArrayList<Collectable> collectables = new ArrayList<Collectable>();
 
     public Map() {
-        loadMap(1);
+        loadMap(2);
     }
 
     private void loadMap(int level) {
