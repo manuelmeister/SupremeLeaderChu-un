@@ -2,6 +2,7 @@ package ninja.chuun;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.FPSLogger;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -84,12 +85,12 @@ public class MapRenderer {
     }
 
     private void createAnimation() {
-        this.tile = new TextureRegion(new Texture(Gdx.files.internal("tile.png")), 0, 0, 16, 16);
+        this.tile = new TextureRegion(new Texture(Gdx.files.internal("tile32.png")), 0, 0, 32, 32);
         walkSheet = new Texture(Gdx.files.internal("chu-un.png"));
 
-        TextureRegion[] chuunTexture = TextureRegion.split(walkSheet, walkSheet.getWidth() / FRAME_COLS, walkSheet.getHeight() / FRAME_ROWS)[0];
+        TextureRegion[] chuunTexture = new TextureRegion(walkSheet).split(32,32)[0];
 
-        TextureRegion[] chuunTextureMirrored = TextureRegion.split(walkSheet, walkSheet.getWidth() / FRAME_COLS, walkSheet.getHeight() / FRAME_ROWS)[0];
+        TextureRegion[] chuunTextureMirrored = new TextureRegion(walkSheet).split(32, 32)[0];
         for (TextureRegion textureRegion : chuunTextureMirrored) {
             textureRegion.flip(true, false);
         }
@@ -114,6 +115,7 @@ public class MapRenderer {
 
         mapCache.setProjectionMatrix(camera.combined);
         //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+        Gdx.gl.glDisable(GL20.GL_BLEND);
         stateTime += Gdx.graphics.getDeltaTime();
 
         mapCache.begin();

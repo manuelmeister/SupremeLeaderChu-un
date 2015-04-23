@@ -5,7 +5,10 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
+import java.text.DecimalFormat;
+
 public class Chuun {
+    final String[] states = {"IDLE","RUN","JUMP","DYING","SPAWN"};
     static final byte IDLE = 0;
     static final byte RUN = 1;
     static final byte JUMP = 3;
@@ -48,8 +51,8 @@ public class Chuun {
         pos.y = y;//y;
         //bouds of original Sprite ar 16*32w
         bounds.width = 0.5f;
-        bounds.height = 1;
-        bounds.x = pos.x + 8;
+        bounds.height = 1f;
+        bounds.x = pos.x + 0.25f;
         bounds.y = pos.y;
 
         this.state = SPAWN;
@@ -143,9 +146,19 @@ public class Chuun {
 
         pos.x = bounds.x - 0.2f;
         pos.y = bounds.y;
+        String log = "Pos:" +dv(pos) + "\t| Vel:" + dv(vel) + "\t| Accel:" + dv(accel) + "\t| Dir:" + dir + "\t| State:" + states[state] + "\t| StateTime:" + stateTime;
+        Gdx.app.debug("SupremeGame",log);
     }
 
-
+    /**
+     * Nicer Vector2 output
+     * @param v
+     * @return String
+     */
+    public String dv(Vector2 v){
+        DecimalFormat df = new DecimalFormat("#.0000000000");
+        return "x:" + df.format(v.x) + ", y:" + df.format(v.y);
+    }
 
     public void setCollidableRects(){
         Vector2 bottomLeft = new Vector2((int)bounds.x, (int)Math.floor(bounds.y));
