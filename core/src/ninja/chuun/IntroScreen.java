@@ -91,7 +91,7 @@ public class IntroScreen implements Screen {
 
         x += 30 * delta;
         if (x > Gdx.graphics.getWidth()){
-            x = -currentFrame.getRegionWidth() - 200 ;
+            x = -currentFrame.getRegionWidth() - 200;
         }
 
         //currentFrame.setRegionWidth(currentFrame.getRegionWidth());
