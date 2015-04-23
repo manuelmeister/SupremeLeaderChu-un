@@ -15,42 +15,13 @@ import com.badlogic.gdx.utils.TimeUtils;
 
 public class GameScreen implements Screen {
 
-	Game game;
-
 	public GameScreen (Game game) {
 		this.game = game;
 	}
 
-	//private Sprite chu_unImage;
-	//private Sprite blackImage;
-	//private Sound dropSound;
-	//private Music rainMusic;
-	//private OrthographicCamera camera;
-	//private SpriteBatch batch;
-	//private Rectangle chu_un;
-
-	//private double supremeSpeed;
-	//private double supremeGravitySpeed;
-
+	Game game;
 	Map map;
-
-	//private Array<Rectangle> scientists;
-	//private long lastScientistTime;
-	//private long gravityTime;
-	//private long startTime = System.nanoTime()/1000000000;
-
-	//private double gravityAcceleration = -500;
-	//private double supremeAcceleration = 1000;
-	//private double movementTimeStep = 0.001;
-
 	MapRenderer mapRenderer;
-	//ModelInstance instance;
-	//AnimationController controller;
-
-	//int counter = 0;
-
-	//private Rectangle floor;
-	//private Rectangle wall;
 
 	@Override
 	public void show() {
@@ -69,119 +40,6 @@ public class GameScreen implements Screen {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		mapRenderer.render(delta);
-
-
-
-		/* Movement estimations ar now lovated inside the Chuun class
-
-
-		// Mouse movements
-		if(Gdx.input.isTouched()) {
-			Vector3 touchPos = new Vector3();
-			touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-			camera.unproject(touchPos);
-			chu_un.x = touchPos.x - 64 / 2;
-		}
-
-		if (!((Gdx.input.getX() < 0) || (Gdx.input.getX() > 800 - 64))){
-			Vector3 touchPos = new Vector3();
-			touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-			camera.unproject(touchPos);
-			chu_un.x = touchPos.x - 64 / 2;
-		}
-
-		//Gravity Movements
-		boolean checkTimeMovements = false;
-		if (gravityTime != ((System.nanoTime() / 1000000) - startTime)) {
-			checkTimeMovements = true;
-			gravityTime = ((System.nanoTime() / 1000000) - startTime);
-		}
-
-
-		//Estimate Gravity Speed
-		if (checkTimeMovements){
-			System.out.println("GravityTime: "+ gravityTime);
-			chu_un.y -= movementTimeStep * (supremeGravitySpeed + movementTimeStep * gravityAcceleration / 2);
-			supremeGravitySpeed += movementTimeStep * gravityAcceleration;
-		}
-
-		//Initiate Jump
-		if(Gdx.input.isKeyPressed(Input.Keys.W)){
-			supremeGravitySpeed = 10;
-		}
-
-		//free fall
-		chu_un.y += supremeGravitySpeed;
-
-		//stay on floor
-		if (chu_un.overlaps(floor)) {
-			chu_un.y = floor.y + floor.height;
-			supremeGravitySpeed = 0;
-		}
-
-
-
-
-		// Key Movements
-		boolean moved = false;
-		if(Gdx.input.isKeyPressed(Input.Keys.A)){
-			if (checkTimeMovements) {
-				supremeSpeed -= movementTimeStep * supremeAcceleration;
-			}
-			moved = true;
-		}
-		if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-			if (checkTimeMovements) {
-				supremeSpeed += movementTimeStep * supremeAcceleration;
-			}
-			moved = true;
-
-		}
-		if (!moved){
-			if (checkTimeMovements) {
-				supremeSpeed /= 2;
-				if (supremeSpeed<0.1){
-					supremeSpeed = 0;
-				}
-			}
-		}
-
-
-
-
-
-		//max Speed
-		if (supremeSpeed > 10) supremeSpeed = 10;
-		if (supremeSpeed < -10) supremeSpeed = -10;
-
-
-
-		//walk
-		chu_un.x += supremeSpeed;
-
-		if (chu_un.overlaps(wall)){
-			chu_un.x = wall.x + wall.getWidth();
-		}
-
-		//stay in scene
-		if(chu_un.x > Gdx.graphics.getWidth() - map.chuun.getBounds().x) chu_un.x = Gdx.graphics.getWidth() - map.chuun.getBounds().x;
-		if(chu_un.x < 0) chu_un.x = 0;
-
-		mapRenderer.Position((int) chu_un.x, (int) chu_un.y);
-		mapRenderer.render();
-		*/
-
-		/*Iterator<Rectangle> iter = scientists.iterator();
-		while(iter.hasNext()) {
-			Rectangle scientist = iter.next();
-			scientist.y -= 200 * Gdx.graphics.getDeltaTime();
-			if(scientist.y + 64 < 0) iter.remove();
-			if(scientist.overlaps(chu_un)) {
-				iter.remove();
-			}
-		}*/
-
-
 
 		if (map.chuun.bounds.overlaps(map.endDoor.bounds)) {
 			//TODO embed game over screen
