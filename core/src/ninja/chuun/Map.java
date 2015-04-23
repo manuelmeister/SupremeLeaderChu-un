@@ -39,16 +39,12 @@ public class Map {
                 int pixel = (pixelmap.getPixel(x,y) >>> 8) & 0xffffff;
                 if (pixel == SPAWN) {
                     spawn = new Spawn(this, x, pixelmap.getHeight() - 1 - y);
-                    chuun = new Chuun(this, spawn.pos);
+                    chuun = new Chuun(this, new Vector2(spawn.pos.x, spawn.pos.y));
                     chuun.state = Chuun.SPAWN;
 
                 } else if (pixel == SCIENTIST) {
                     Scientist scientist = new Scientist(this, x, pixelmap.getHeight() - 1 - y);
                     scientists.add(scientist);
-
-                } else if (pixel == SPIKES) {
-                    Spike spike = new Spike(this, x, pixelmap.getHeight() - 1 - y);
-                    spikes.add(spike);
 
                 } else if (pixel == COLLECTABLE) {
                     Collectable collectable = new Collectable(this, x, pixelmap.getHeight() - 1 - y);
@@ -71,6 +67,10 @@ public class Map {
     }
 
     public void update(float delta) {
+        if (chuun.state == chuun.DEAD){
+            chuun = new Chuun(this, new Vector2(spawn.pos.x, spawn.pos.y));
+            chuun.state = Chuun.SPAWN;
+        }
         chuun.update(delta);
     }
 }

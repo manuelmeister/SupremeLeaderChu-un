@@ -8,12 +8,13 @@ import com.badlogic.gdx.math.Vector2;
 import java.text.DecimalFormat;
 
 public class Chuun {
-    final String[] states = {"IDLE","RUN","JUMP","DYING","SPAWN"};
+    final String[] states = {"IDLE","RUN","","JUMP","DYING","SPAWN", "DEAD"};
     static final byte IDLE = 0;
     static final byte RUN = 1;
     static final byte JUMP = 3;
     static final byte DYING = 4;
     static final byte SPAWN = 5;
+    static final byte DEAD = 6;
 
     static final byte LEFT = -1;
     static final byte RIGHT = 1;
@@ -88,6 +89,9 @@ public class Chuun {
     }
 
     public void updateState() {
+        if (state == DEAD || state == SPAWN){
+            return;
+        }
         boolean movement = false;
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             this.dir = LEFT;
@@ -133,7 +137,7 @@ public class Chuun {
                 if (vel.y < 0) {
                     bounds.y = rect.y + rect.height + 0.01f;
                     grounded = true;
-                    if (state != DYING && state != SPAWN) state = Math.abs(accel.x) > 0.1f ? RUN : IDLE;
+                    if (state != SPAWN) state = Math.abs(accel.x) > 0.1f ? RUN : IDLE;
                 } else
                     bounds.y = rect.y - bounds.height - 0.01f;
                 vel.y = 0;
@@ -168,8 +172,8 @@ public class Chuun {
         int frontUpperTile = tiles[(int)topRight.x][map.tiles[0].length - 1 - (int)topRight.y];
         int bodyUpperTile = tiles[(int)topLeft.x][map.tiles[0].length - 1 - (int)topLeft.y];
 
-        if (state != DYING && (map.isDeadly(bodyTile) || map.isDeadly(frontTile) || map.isDeadly(frontUpperTile) || map.isDeadly(bodyUpperTile))) {
-            state = DYING;
+        if ((map.isDeadly(bodyTile) || map.isDeadly(frontTile) || map.isDeadly(frontUpperTile) || map.isDeadly(bodyUpperTile))) {
+            state = DEAD;
             stateTime = 0;
         }
 

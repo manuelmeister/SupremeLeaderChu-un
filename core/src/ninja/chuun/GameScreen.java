@@ -41,6 +41,8 @@ public class GameScreen implements Screen {
 
 		mapRenderer.render(delta);
 
+
+
 		if (map.chuun.bounds.overlaps(map.endDoor.bounds)) {
 			//TODO embed game over screen
 			System.out.println("Game over");//game.setScreen(new GameOverScreen(game));
