@@ -51,8 +51,9 @@ public class MapRenderer {
     public MapRenderer(Map map) {
         this.map = map;
         this.camera = new OrthographicCamera(24, 16);
+
         this.camera.position.set(map.chuun.pos.x, map.chuun.pos.y, 0);
-        this.mapCache = new SpriteCache(map.tiles.length * map.tiles[0].length, false);
+        this.mapCache = new SpriteCache(this.map.tiles.length * this.map.tiles[0].length, false);
         this.blocks = new int[(int) (this.map.tiles.length / 24.0f)][(int) (this.map.tiles[0].length / 16.0f)];
 
         createAnimation();
@@ -170,7 +171,7 @@ public class MapRenderer {
             animation = chuun_resting;
         }
         currentFrame = animation.getKeyFrame(map.chuun.stateTime,loopAnimation);
-        spriteBatch.draw(currentFrame,Gdx.graphics.getWidth()/2 - map.chuun.bounds.width,Gdx.graphics.getHeight()/2, currentFrame.getRegionWidth(), currentFrame.getRegionWidth());
+        spriteBatch.draw(currentFrame,Gdx.graphics.getWidth()/2 - map.chuun.bounds.width*32/2,Gdx.graphics.getHeight()/2, currentFrame.getRegionWidth(), currentFrame.getRegionHeight());
     }
 
     public void dispose() {
