@@ -29,8 +29,8 @@ public class Map {
     ArrayList<Collectable> collectables = new ArrayList<Collectable>();
     ArrayList<Lava> lavas = new ArrayList<Lava>();
 
-    public Map() {
-        loadMap(3);
+    public Map(int level) {
+        loadMap(level);
     }
 
     private void loadMap(int level) {

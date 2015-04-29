@@ -29,7 +29,7 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void show() {
-		map = new Map();
+		map = new Map(4);
 		mapRenderer = new MapRenderer(map);
 		supremeMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/music.mp3"));
 		supremeMusic.setVolume(0.005f);
