@@ -141,9 +141,9 @@ public class MapRenderer {
 
         mapCache.begin();
 
-        for (int blockX = 0; blockX < 6; blockX++) {
-            for (int blockY = 0; blockY < 4; blockY++) {
-                mapCache.draw(blocks[blockX][blockY]);
+        for (int[] block : blocks) {
+            for (int i : block) {
+                mapCache.draw(i);
             }
         }
 
