@@ -22,6 +22,7 @@ public class IntroScreen implements Screen {
 
     Game game;
     private Music supremeMusic;
+    private Music gong;
 
     public IntroScreen (Game game) {
         this.game = game;
@@ -29,6 +30,8 @@ public class IntroScreen implements Screen {
         supremeMusic.setVolume(0.05f);
         supremeMusic.setLooping(true);
         supremeMusic.play();
+        gong = Gdx.audio.newMusic(Gdx.files.internal("sound/gong.mp3"));
+        gong.setVolume(0.1f);
     }
 
     private OrthographicCamera camera;
@@ -90,6 +93,7 @@ public class IntroScreen implements Screen {
 
         if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY) && !Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
             supremeMusic.stop();
+            gong.play();
             //base.play();
             game.setScreen(new GameScreen(game));
         }
