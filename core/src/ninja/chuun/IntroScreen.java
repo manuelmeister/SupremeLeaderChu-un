@@ -78,7 +78,7 @@ public class IntroScreen implements Screen {
         //instantiate SpriteBatch
         batch = new SpriteBatch();
 
-        Texture walkSheet = new Texture(Gdx.files.internal("chu-un.png"));
+        Texture walkSheet = new Texture(Gdx.files.internal("sprites.png"));
 
         TextureRegion[] chuunTexture = new TextureRegion(walkSheet).split(32, 32)[0];
 
