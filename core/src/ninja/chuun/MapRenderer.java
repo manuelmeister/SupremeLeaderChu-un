@@ -152,7 +152,6 @@ public class MapRenderer {
         spriteBatch.begin();
         renderChuun();
         renderLava();
-        System.out.println(map.endDoor.bounds.x + "  " + map.endDoor.bounds.y + "  " + this.endDoor);
         if (map.endDoor != null)
             spriteBatch.draw(this.endDoor, map.endDoor.bounds.x, map.endDoor.bounds.y, 1, 1);
         System.out.println(map.endDoor != null);

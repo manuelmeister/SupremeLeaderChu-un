@@ -28,6 +28,7 @@ public class Map {
     ArrayList<Spike> spikes = new ArrayList<Spike>();
     ArrayList<Collectable> collectables = new ArrayList<Collectable>();
     ArrayList<Lava> lavas = new ArrayList<Lava>();
+    NextLevel nextLevel;
 
     public Map() {
         loadMap(3);
@@ -58,7 +59,10 @@ public class Map {
                     Lava lava = new Lava(this, x, pixelmap.getHeight() - 1 - y);
                     lavas.add(lava);
 
-                } else if (pixel == END) {
+                } else if (pixel == NEXTLEVEL) {
+                    nextLevel = new NextLevel(this, x, pixelmap.getHeight() - 1 - y);
+
+                }else if (pixel == END) {
                     endDoor = new EndDoor(this, x, pixelmap.getHeight() - 1 - y);
 
                 }
