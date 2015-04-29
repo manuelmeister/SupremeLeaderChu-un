@@ -21,6 +21,7 @@ import java.util.Arrays;
 public class IntroScreen implements Screen {
 
     Game game;
+    private int startLevel = 6;
     private Music supremeMusic;
     private Music gong;
     private Music pressanykey;
@@ -106,7 +107,7 @@ public class IntroScreen implements Screen {
             supremeMusic.stop();
             gong.play();
             //base.play();
-            game.setScreen(new GameScreen(game, 4));
+            game.setScreen(new GameScreen(game, startLevel));
         }
 
         stateTime += Gdx.graphics.getDeltaTime();

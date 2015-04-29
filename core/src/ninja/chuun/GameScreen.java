@@ -54,17 +54,19 @@ public class GameScreen implements Screen {
 		mapRenderer.render(delta);
 
 
-		if(map.endDoor != null){
-			if ((map.nextLevel == null) && (map.chuun.bounds.overlaps(map.endDoor.bounds))) {
-				//TODO embed game over screen
-				game.setScreen(new WinScreen(game));
-				System.out.println("Game over");//game.setScreen(new GameOverScreen(game));
-			}
-			if ((map.endDoor == null) && (map.chuun.bounds.overlaps(new Rectangle(map.nextLevel.pos.x, map.nextLevel.pos.y, 1, 1)))) {
+		if(map.endDoor == null){
+			if (map.chuun.bounds.overlaps(new Rectangle(map.nextLevel.pos.x, map.nextLevel.pos.y, 1, 1))) {
 				//TODO embed game over screen
 				this.level += 1;
 				map = new Map(this.level);
-				System.out.println("Game over");//game.setScreen(new GameOverScreen(game));
+				mapRenderer = new MapRenderer(map);
+				System.out.println("Next Level!");//game.setScreen(new GameOverScreen(game));
+			}
+		}else {
+			if (map.chuun.bounds.overlaps(map.endDoor.bounds)) {
+				//TODO embed game over screen
+				game.setScreen(new WinScreen(game));
+				System.out.println("Win!");//game.setScreen(new GameOverScreen(game));
 			}
 		}
 
