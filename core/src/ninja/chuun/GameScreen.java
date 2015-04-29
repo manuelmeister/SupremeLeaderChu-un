@@ -54,11 +54,12 @@ public class GameScreen implements Screen {
 		mapRenderer.render(delta);
 
 
-
-		if (map.chuun.bounds.overlaps(map.endDoor.bounds)) {
-			//TODO embed game over screen
-			game.setScreen(new WinScreen(game));
-			System.out.println("Game over");//game.setScreen(new GameOverScreen(game));
+		if(map.endDoor != null){
+			if (map.chuun.bounds.overlaps(map.endDoor.bounds)) {
+				//TODO embed game over screen
+				game.setScreen(new WinScreen(game));
+				System.out.println("Game over");//game.setScreen(new GameOverScreen(game));
+			}
 		}
 
 		if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
