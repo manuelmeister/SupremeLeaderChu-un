@@ -16,7 +16,7 @@ public class Map {
     static final int SCIENTIST = 0x0000ff; //blue
     static final int COLLECTABLE = 0xffff00; //yellow
     static final int LAVA = 0xFF9000; //orange (salt)
-    static final int NEXTLEVEL = 0x00FF21; //Hellgrün
+    static final int NEXTLEVEL = 0x00FF21; //HellgrÃ¼n
     static final int END = 0x00FFFF;  //cyan
     static final int TRAMPOLIN = 0xFF00FF; //dunkelblau
 

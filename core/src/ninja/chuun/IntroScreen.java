@@ -12,9 +12,12 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.Arrays;
 
@@ -79,6 +82,7 @@ public class IntroScreen implements Screen {
         //instantiate SpriteBatch
         batch = new SpriteBatch();
 
+        batch.setProjectionMatrix(camera.combined);
         Texture walkSheet = new Texture(Gdx.files.internal("sprites.png"));
 
         TextureRegion[] chuunTexture = new TextureRegion(walkSheet).split(32, 32)[0];
@@ -124,8 +128,9 @@ public class IntroScreen implements Screen {
         //Batch Render-Code
         batch.begin();
         batch.draw(backgroundRegion, 0, 0);
-        batch.draw(logoRegion, Gdx.graphics.getWidth()/2-logo.getWidth()/2, Gdx.graphics.getHeight()/4*3-logo.getHeight()/2);
-        batch.draw(subtitleRegion, Gdx.graphics.getWidth()/2-subtitle.getWidth()/2, Gdx.graphics.getWidth()/2-subtitle.getHeight()/2);
+        camera.setToOrtho(false, ,Viewport);
+        batch.draw(logoRegion,0,0);
+        batch.draw(subtitleRegion,0,0);
         //batch.draw(introfloorRegion, 0, 0);
         //batch.draw(introchu_unRegion, Gdx.graphics.getWidth()/2 - introchu_unRegion.getRegionWidth()/2, Gdx.graphics.getHeight()/4*3);
         //batch.draw(currentFrame, x, introfloor.getHeight(), currentFrame.getRegionWidth()*4, currentFrame.getRegionHeight()*4);
@@ -136,7 +141,10 @@ public class IntroScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        camera.viewportWidth = width;
+        camera.viewportHeight = height;
+        camera.position.set(width/2f, height/2f, 0);
+        camera.update();
     }
 
     @Override
