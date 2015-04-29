@@ -21,7 +21,7 @@ import java.util.Arrays;
 public class IntroScreen implements Screen {
 
     Game game;
-    private int startLevel = 1;
+    private int startLevel = 7;
     private Music supremeMusic;
     private Music gong;
     private Music pressanykey;
@@ -46,14 +46,14 @@ public class IntroScreen implements Screen {
     private Animation chu_unAnimation;
     float stateTime = 0f;
 
-    private Texture introwall = new Texture(Gdx.files.internal("introwall.png"));
-    private TextureRegion introwallRegion = new TextureRegion(introwall);
-    private Texture introfloor = new Texture(Gdx.files.internal("introfloor.png"));
-    private TextureRegion introfloorRegion = new TextureRegion(introfloor);
-    private Texture introchu_un = new Texture(Gdx.files.internal("introchu_un.png"));
-    private TextureRegion introchu_unRegion = new TextureRegion(introchu_un);
-    private Texture introspeech = new Texture(Gdx.files.internal("introspeech.png"));
+    private Texture background = new Texture(Gdx.files.internal("GUI/background.png"));
+    private TextureRegion backgroundRegion = new TextureRegion(background);
+    private Texture logo = new Texture(Gdx.files.internal("logo.png"));
+    private TextureRegion logoRegion = new TextureRegion(logo);
+    private Texture introspeech = new Texture(Gdx.files.internal("GUI/introspeech.png"));
     private TextureRegion introspeechRegion = new TextureRegion(introspeech);
+    private Texture subtitle = new Texture(Gdx.files.internal("GUI/subtitle.png"));
+    private TextureRegion subtitleRegion = new TextureRegion(subtitle);
 
     //Map map;
 
@@ -73,8 +73,8 @@ public class IntroScreen implements Screen {
         //mapRenderer = new MapRenderer(map);
 
         //load and set camera
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, 800, 480);
+        camera = new OrthographicCamera(160,117);
+        //camera.setToOrtho(false, 800, 480);
 
         //instantiate SpriteBatch
         batch = new SpriteBatch();
@@ -123,11 +123,13 @@ public class IntroScreen implements Screen {
 
         //Batch Render-Code
         batch.begin();
-        batch.draw(introwallRegion, 0, 0);
-        batch.draw(introfloorRegion, 0, 0);
-        batch.draw(introchu_unRegion, Gdx.graphics.getWidth()/2 - introchu_unRegion.getRegionWidth()/2, Gdx.graphics.getHeight()/4*3);
-        batch.draw(currentFrame, x, introfloor.getHeight(), currentFrame.getRegionWidth()*4, currentFrame.getRegionHeight()*4);
-        batch.draw(introspeechRegion, x+currentFrame.getRegionWidth()*2, introfloor.getHeight()+currentFrame.getRegionHeight()*4, introspeechRegion.getRegionWidth(), introspeechRegion.getRegionHeight());
+        batch.draw(backgroundRegion, 0, 0);
+        batch.draw(logoRegion, Gdx.graphics.getWidth()/2-logo.getWidth()/2, Gdx.graphics.getHeight()/4*3-logo.getHeight()/2);
+        batch.draw(subtitleRegion, Gdx.graphics.getWidth()/2-subtitle.getWidth()/2, Gdx.graphics.getWidth()/2-subtitle.getHeight()/2);
+        //batch.draw(introfloorRegion, 0, 0);
+        //batch.draw(introchu_unRegion, Gdx.graphics.getWidth()/2 - introchu_unRegion.getRegionWidth()/2, Gdx.graphics.getHeight()/4*3);
+        //batch.draw(currentFrame, x, introfloor.getHeight(), currentFrame.getRegionWidth()*4, currentFrame.getRegionHeight()*4);
+        //batch.draw(introspeechRegion, x+currentFrame.getRegionWidth()*2, introfloor.getHeight()+currentFrame.getRegionHeight()*4, introspeechRegion.getRegionWidth(), introspeechRegion.getRegionHeight());
         batch.end();
 
     }
