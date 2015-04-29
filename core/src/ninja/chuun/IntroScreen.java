@@ -106,7 +106,7 @@ public class IntroScreen implements Screen {
             supremeMusic.stop();
             gong.play();
             //base.play();
-            game.setScreen(new GameScreen(game, 4));
+            game.setScreen(new GameScreen(game, 5));
         }
 
         stateTime += Gdx.graphics.getDeltaTime();

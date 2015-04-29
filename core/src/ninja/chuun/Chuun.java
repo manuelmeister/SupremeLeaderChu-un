@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import java.text.DecimalFormat;
 
 public class Chuun {
-    final String[] states = {"IDLE","RUN","","JUMP","DYING","SPAWN", "DEAD", "NEXTLEVEL","WIN"};
+    final String[] states = {"IDLE","RUN","","JUMP","DYING","SPAWN", "DEAD", "NEXTLEVEL","WIN", "TRAMPOLIN"};
     static final byte IDLE = 0;
     static final byte RUN = 1;
     static final byte JUMP = 3;
@@ -19,6 +19,7 @@ public class Chuun {
     static final byte DEAD = 6;
     static final byte NEXTLEVEL = 7;
     static final byte WIN = 8;
+    static final byte TRAMPOLIN = 9;
 
     static final byte LEFT = -1;
     static final byte RIGHT = 1;
@@ -31,6 +32,7 @@ public class Chuun {
     static final float MAX_VEL = 6f;
     static final float DAMP = 0.50f;
     static final float JUMP_VELOCITY = 20;//7f;
+    static final float TRAMPOLIN_VELOCITY = 40;//7f;
 
     float stateTime = 0;
 
@@ -114,19 +116,24 @@ public class Chuun {
             if (!supremeSteps.isPlaying() && !(this.state == JUMP)) supremeSteps.play();
         }
         if (Gdx.input.isKeyPressed(Input.Keys.W) && this.state != JUMP) {
-            this.state = JUMP;
             supremeSteps.stop();
             supremeJump.play();
-            vel.y = JUMP_VELOCITY;
+            if (this.state == TRAMPOLIN) {
+                vel.y = TRAMPOLIN_VELOCITY;
+            } else {
+                vel.y = JUMP_VELOCITY;
+            }
+            this.state = JUMP;
             movement = true;
             grounded = false;
+
         }
         if (movement) {
-            if (state != JUMP) state = RUN;
+            if (state != JUMP && state != TRAMPOLIN) state = RUN;
             accel.x = Acceleration * dir;
         } else {
             supremeSteps.stop();
-            if (state != JUMP) state = IDLE;
+            if (state != JUMP && state != TRAMPOLIN) state = IDLE;
             accel.x = 0;
         }
     }
@@ -152,7 +159,7 @@ public class Chuun {
                 if (vel.y < 0) {
                     bounds.y = rect.y + rect.height + 0.01f;
                     grounded = true;
-                    if (state != SPAWN) state = Math.abs(accel.x) > 0.1f ? RUN : IDLE;
+                    if (state != SPAWN  && state != TRAMPOLIN) state = Math.abs(accel.x) > 0.1f ? RUN : IDLE;
                 } else
                     bounds.y = rect.y - bounds.height - 0.01f;
                 vel.y = 0;
@@ -202,6 +209,14 @@ public class Chuun {
             System.out.println("-------- Win! --------");
             state = WIN;
             stateTime = 0;
+        }
+
+        System.out.println(map.isTrampolin(0x0026FF));
+
+        if ((map.isTrampolin(bodyTile)) || map.isTrampolin(frontTile) || map.isTrampolin(frontUpperTile) || map.isTrampolin(bodyUpperTile))  {
+            System.out.println("-------- Trampolin! --------");
+            state = TRAMPOLIN;
+
         }
 
 
