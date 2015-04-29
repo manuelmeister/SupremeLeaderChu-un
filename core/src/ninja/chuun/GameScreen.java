@@ -32,7 +32,7 @@ public class GameScreen implements Screen {
 		map = new Map(level);
 		mapRenderer = new MapRenderer(map);
 		supremeMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/music.mp3"));
-		supremeMusic.setVolume(0.005f);
+		supremeMusic.setVolume(0.05f);
 		supremeMusic.setLooping(true);
 		supremeMusic.play();
 	}
