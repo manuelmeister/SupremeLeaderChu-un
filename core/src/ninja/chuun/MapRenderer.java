@@ -38,6 +38,7 @@ public class MapRenderer {
     TextureRegion currentFrame;
     TextureRegion tile;
     TextureRegion spikes;
+    TextureRegion nextLevel;
     TextureRegion endDoor;
 
     int[][] blocks;
@@ -96,7 +97,8 @@ public class MapRenderer {
     private void createAnimation() {
         this.tile = new TextureRegion(new Texture(Gdx.files.internal("tile32.png")));
         this.spikes = new TextureRegion(new Texture(Gdx.files.internal("bucket.png")));
-        this.endDoor = new TextureRegion(new Texture(Gdx.files.internal("door.png")));
+        this.nextLevel = new TextureRegion(new Texture(Gdx.files.internal("door.png")));
+        this.endDoor = new TextureRegion(new Texture(Gdx.files.internal("enddoor.png")));
         walkSheet = new Texture(Gdx.files.internal("sprites.png"));
 
         TextureRegion[] lavaTexture = new TextureRegion(walkSheet).split(32, 32)[1];
@@ -152,8 +154,8 @@ public class MapRenderer {
         spriteBatch.begin();
         renderChuun();
         renderLava();
-        if (map.endDoor != null)
-            spriteBatch.draw(this.endDoor, map.endDoor.bounds.x, map.endDoor.bounds.y, 1, 1);
+        if (map.nextLevel != null)
+            spriteBatch.draw(this.nextLevel, map.nextLevel.pos.x, map.nextLevel.pos.y, 1, 1);
         System.out.println(map.endDoor != null);
         spriteBatch.end();
 
