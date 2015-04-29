@@ -18,6 +18,7 @@ public class Map {
     static final int LAVA = 0xFF9000;
     static final int NEXTLEVEL = 0x00FF21;
     static final int END = 0x00FFFF;
+    static final int TRAMPOLIN = 0x0026FF;
 
     int[][] tiles;
     Pixmap pixelmap;
@@ -64,7 +65,6 @@ public class Map {
 
                 }else if (pixel == END) {
                     endDoor = new EndDoor(this, x, pixelmap.getHeight() - 1 - y);
-
                 }
                 tiles[x][y] = pixel;
 
@@ -91,5 +91,9 @@ public class Map {
 
     public boolean isNextLevel(int frontTile) {
         return frontTile == NEXTLEVEL;
+    }
+
+    public boolean isTrampolin(int frontTile) {
+        return frontTile == TRAMPOLIN;
     }
 }
