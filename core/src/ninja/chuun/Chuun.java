@@ -17,8 +17,8 @@ public class Chuun {
     static final byte DYING = 4;
     static final byte SPAWN = 5;
     static final byte DEAD = 6;
-    static final byte NEXTLEVEL = 8;
-    static final byte WIN = 9;
+    static final byte NEXTLEVEL = 7;
+    static final byte WIN = 8;
 
     static final byte LEFT = -1;
     static final byte RIGHT = 1;

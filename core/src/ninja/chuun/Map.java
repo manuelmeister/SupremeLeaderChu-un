@@ -30,7 +30,7 @@ public class Map {
     ArrayList<Lava> lavas = new ArrayList<Lava>();
 
     public Map() {
-        loadMap(2);
+        loadMap(3);
     }
 
     private void loadMap(int level) {
