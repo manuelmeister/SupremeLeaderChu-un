@@ -33,7 +33,7 @@ public class IntroScreen implements Screen {
         supremeMusic.setLooping(true);
         supremeMusic.play();
         gong = Gdx.audio.newMusic(Gdx.files.internal("sound/gong.mp3"));
-        gong.setVolume(0.1f);
+        gong.setVolume(0.005f);
         pressanykey = Gdx.audio.newMusic(Gdx.files.internal("sound/pressanykey.mp3"));
         pressanykey.setVolume(1);
         pressanykey.play();

@@ -30,7 +30,7 @@ public class GameScreen implements Screen {
 		map = new Map();
 		mapRenderer = new MapRenderer(map);
 		supremeMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/music.mp3"));
-		supremeMusic.setVolume(0.02f);
+		supremeMusic.setVolume(0.005f);
 		supremeMusic.setLooping(true);
 		supremeMusic.play();
 	}
@@ -55,6 +55,7 @@ public class GameScreen implements Screen {
 
 		if (map.chuun.bounds.overlaps(map.endDoor.bounds)) {
 			//TODO embed game over screen
+			game.setScreen(new WinScreen(game));
 			System.out.println("Game over");//game.setScreen(new GameOverScreen(game));
 		}
 

@@ -63,7 +63,7 @@ public class Chuun {
         this.dir = LEFT;
 
         supremeSteps.setVolume(0.1f);
-        supremeJump.setVolume(1f);
+        supremeJump.setVolume(0.1f);
     }
 
     public void update(float deltaTime){
