@@ -48,7 +48,7 @@ public class MapRenderer {
     Animation chuun_resting;
     Animation chuun_jump_right;
     Animation chuun_jump_left;
-
+    Animation lava;
 
 
     public MapRenderer(Map map) {
@@ -97,7 +97,9 @@ public class MapRenderer {
         this.tile = new TextureRegion(new Texture(Gdx.files.internal("tile32.png")));
         this.spikes = new TextureRegion(new Texture(Gdx.files.internal("bucket.png")));
         this.endDoor = new TextureRegion(new Texture(Gdx.files.internal("door.png")));
-        walkSheet = new Texture(Gdx.files.internal("chu-un.png"));
+        walkSheet = new Texture(Gdx.files.internal("sprites.png"));
+
+        TextureRegion[] lavaTexture = new TextureRegion(walkSheet).split(32, 32)[1];
 
         TextureRegion[] chuunTexture = new TextureRegion(walkSheet).split(32, 32)[0];
 
@@ -113,6 +115,8 @@ public class MapRenderer {
         chuun_jump_left = new Animation(CHUUN_RATE, chuunTextureMirrored[8]);
 
         chuun_resting = new Animation(0, chuunTexture[0]);
+
+        lava = new Animation(0.2f,lavaTexture);
 
         spriteBatch = new SpriteBatch();
         stateTime = 0f;
@@ -130,6 +134,7 @@ public class MapRenderer {
 
 
         mapCache.setProjectionMatrix(camera.combined);
+        spriteBatch.setProjectionMatrix(camera.combined);
         //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
         Gdx.gl.glDisable(GL20.GL_BLEND);
         stateTime += Gdx.graphics.getDeltaTime();
@@ -152,7 +157,7 @@ public class MapRenderer {
         System.out.println(map.endDoor != null);
         spriteBatch.end();
 
-        //debugRenderer();
+        debugRenderer();
 
         fps.log();
     }
@@ -176,7 +181,8 @@ public class MapRenderer {
             animation = chuun_resting;
         }
         currentFrame = animation.getKeyFrame(map.chuun.stateTime,loopAnimation);
-        spriteBatch.draw(currentFrame,Gdx.graphics.getWidth()/2 - map.chuun.bounds.width*32/2,Gdx.graphics.getHeight()/2, currentFrame.getRegionWidth(), currentFrame.getRegionHeight());
+        //spriteBatch.draw(currentFrame,Gdx.graphics.getWidth()/2 - map.chuun.bounds.width*32/2,Gdx.graphics.getHeight()/2, currentFrame.getRegionWidth(), currentFrame.getRegionHeight());
+        spriteBatch.draw(currentFrame,map.chuun.bounds.x,map.chuun.bounds.y, 1, 1);
     }
 
     private void debugRenderer(){

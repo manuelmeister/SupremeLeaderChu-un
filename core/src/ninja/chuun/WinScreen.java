@@ -63,7 +63,7 @@ public class WinScreen implements Screen {
         //instantiate SpriteBatch
         batch = new SpriteBatch();
 
-        Texture walkSheet = new Texture(Gdx.files.internal("chu-un.png"));
+        Texture walkSheet = new Texture(Gdx.files.internal("sprites.png"));
 
         TextureRegion[] chuunTexture = TextureRegion.split(walkSheet, walkSheet.getWidth() / 8, walkSheet.getHeight() / 1)[0];
 
