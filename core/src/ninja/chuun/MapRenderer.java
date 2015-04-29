@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteCache;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 import java.util.Arrays;
@@ -46,11 +47,13 @@ public class MapRenderer {
     Animation chuun_resting;
 
 
+
     public MapRenderer(Map map) {
         this.map = map;
         this.camera = new OrthographicCamera(24, 16);
+
         this.camera.position.set(map.chuun.pos.x, map.chuun.pos.y, 0);
-        this.mapCache = new SpriteCache(map.tiles.length * map.tiles[0].length, false);
+        this.mapCache = new SpriteCache(this.map.tiles.length * this.map.tiles[0].length, false);
         this.blocks = new int[(int) (this.map.tiles.length / 24.0f)][(int) (this.map.tiles[0].length / 16.0f)];
 
         createAnimation();
@@ -75,7 +78,7 @@ public class MapRenderer {
                         int posY = height - y - 1;
 
                         if (map.tiles[x][y] == Map.TILE) mapCache.add(tile, posX, posY, 1, 1);
-                        //if (map.tiles[x][y] == Map.SPIKES) mapCache.add(spikes, posX, posY, 1, 1);
+                        if (map.tiles[x][y] == Map.SPIKES) mapCache.add(spikes, posX, posY, 1, 1);
                     }
                 }
 
@@ -86,7 +89,8 @@ public class MapRenderer {
     }
 
     private void createAnimation() {
-        this.tile = new TextureRegion(new Texture(Gdx.files.internal("tile32.png")), 0, 0, 32, 32);
+        this.tile = new TextureRegion(new Texture(Gdx.files.internal("tile32.png")));
+        this.spikes = new TextureRegion(new Texture(Gdx.files.internal("bucket.png")));
         walkSheet = new Texture(Gdx.files.internal("chu-un.png"));
 
         TextureRegion[] chuunTexture = new TextureRegion(walkSheet).split(32, 32)[0];
@@ -136,11 +140,18 @@ public class MapRenderer {
 
         debugRenderer.setProjectionMatrix(camera.combined);
         debugRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        debugRenderer.setColor(new Color(0, 1, 0, 1));
 
-        for (Rectangle rectangle : map.chuun.collisionHalo) {
-            debugRenderer.rect(rectangle.x,rectangle.y,1,1);
-        }
+        Rectangle[] collisionHalo = map.chuun.collisionHalo;
+        debugRenderer.setColor(new Color(0, 1, 0, 1));
+        debugRenderer.rect(collisionHalo[0].x, collisionHalo[0].y, 1, 1);
+        debugRenderer.setColor(new Color(0, 1, 1, 1));
+        debugRenderer.rect(collisionHalo[1].x, collisionHalo[1].y, 1, 1);
+        debugRenderer.setColor(new Color(1, 0, 0, 1));
+        debugRenderer.rect(collisionHalo[2].x, collisionHalo[2].y, 1, 1);
+        debugRenderer.setColor(new Color(1, 1, 1, 1));
+        debugRenderer.rect(collisionHalo[3].x, collisionHalo[3].y, 1, 1);
+        debugRenderer.setColor(new Color(1, 0, 1, 1));
+        debugRenderer.rect(collisionHalo[4].x, collisionHalo[4].y, 1, 1);
 
         debugRenderer.end();
 
@@ -160,7 +171,7 @@ public class MapRenderer {
             animation = chuun_resting;
         }
         currentFrame = animation.getKeyFrame(map.chuun.stateTime,loopAnimation);
-        spriteBatch.draw(currentFrame,Gdx.graphics.getWidth()/2 - map.chuun.bounds.width,Gdx.graphics.getHeight()/2, currentFrame.getRegionWidth(), currentFrame.getRegionWidth());
+        spriteBatch.draw(currentFrame,Gdx.graphics.getWidth()/2 - map.chuun.bounds.width*32/2,Gdx.graphics.getHeight()/2, currentFrame.getRegionWidth(), currentFrame.getRegionHeight());
     }
 
     public void dispose() {

@@ -33,6 +33,10 @@ public class GameScreen implements Screen {
 	public void render(float delta) {
 		delta = Math.min(0.06f, Gdx.graphics.getDeltaTime());
 
+		if (map.chuun.state == 7){
+			game.setScreen(new WinScreen(game));
+		}
+
 		map.update(delta);
 
 		//Set Color to blue
@@ -40,6 +44,8 @@ public class GameScreen implements Screen {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		mapRenderer.render(delta);
+
+
 
 		if (map.chuun.bounds.overlaps(map.endDoor.bounds)) {
 			//TODO embed game over screen

@@ -17,11 +17,10 @@ import com.badlogic.gdx.utils.TimeUtils;
 
 import java.util.Arrays;
 
-public class IntroScreen implements Screen {
-
+public class WinScreen implements Screen {
     Game game;
 
-    public IntroScreen (Game game) {
+    public WinScreen (Game game) {
         this.game = game;
     }
 
@@ -133,6 +132,7 @@ public class IntroScreen implements Screen {
     public void dispose() {
 
     }
+
 
 
 }

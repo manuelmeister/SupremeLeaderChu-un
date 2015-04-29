@@ -8,12 +8,14 @@ import com.badlogic.gdx.math.Vector2;
 import java.text.DecimalFormat;
 
 public class Chuun {
-    final String[] states = {"IDLE","RUN","JUMP","DYING","SPAWN"};
+    final String[] states = {"IDLE","RUN","","JUMP","DYING","SPAWN", "DEAD", "WIN"};
     static final byte IDLE = 0;
     static final byte RUN = 1;
     static final byte JUMP = 3;
     static final byte DYING = 4;
     static final byte SPAWN = 5;
+    static final byte DEAD = 6;
+    static final byte WIN = 7;
 
     static final byte LEFT = -1;
     static final byte RIGHT = 1;
@@ -22,10 +24,10 @@ public class Chuun {
     Vector2 accel = new Vector2();
     Vector2 vel = new Vector2();
 
-    static final float GRAVITY = 9.81f;
+    static final float GRAVITY = 60;//9.81f;
     static final float MAX_VEL = 6f;
     static final float DAMP = 0.50f;
-    static final float JUMP_VELOCITY = 7f;
+    static final float JUMP_VELOCITY = 20;//7f;
 
     float stateTime = 0;
 
@@ -88,6 +90,9 @@ public class Chuun {
     }
 
     public void updateState() {
+        if (state == DEAD || state == SPAWN){
+            return;
+        }
         boolean movement = false;
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             this.dir = LEFT;
@@ -98,6 +103,7 @@ public class Chuun {
             movement = true;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.W) && this.state != JUMP) {
+            System.out.println("---- jump ----");
             this.state = JUMP;
             vel.y = JUMP_VELOCITY;
             movement = true;
@@ -133,7 +139,7 @@ public class Chuun {
                 if (vel.y < 0) {
                     bounds.y = rect.y + rect.height + 0.01f;
                     grounded = true;
-                    if (state != DYING && state != SPAWN) state = Math.abs(accel.x) > 0.1f ? RUN : IDLE;
+                    if (state != SPAWN) state = Math.abs(accel.x) > 0.1f ? RUN : IDLE;
                 } else
                     bounds.y = rect.y - bounds.height - 0.01f;
                 vel.y = 0;
@@ -164,35 +170,48 @@ public class Chuun {
 
         int[][] tiles = map.tiles;
         int bodyTile = tiles[(int)bottomLeft.x][map.tiles[0].length - 1 - (int)bottomLeft.y];
-        int frontTile = tiles[(int)bottomRight.x][map.tiles[0].length - 1 - (int)bottomRight.y];
+        int frontTile = tiles[(int)bottomRight.x][map.tiles[0].length - 1  - (int)bottomRight.y];
         int frontUpperTile = tiles[(int)topRight.x][map.tiles[0].length - 1 - (int)topRight.y];
         int bodyUpperTile = tiles[(int)topLeft.x][map.tiles[0].length - 1 - (int)topLeft.y];
 
-        if (state != DYING && (map.isDeadly(bodyTile) || map.isDeadly(frontTile) || map.isDeadly(frontUpperTile) || map.isDeadly(bodyUpperTile))) {
-            state = DYING;
+        if ((map.isDeadly(frontTile))){ // || map.isDeadly(bodyTile) || map.isDeadly(frontUpperTile) || map.isDeadly(bodyUpperTile))) {
+            state = DEAD;
+            stateTime = 0;
+        }
+
+        if (map.isWin(frontTile)) {
+            state = WIN;
             stateTime = 0;
         }
 
 
         //TODO evtl. 1, 1 anpassen zu 16*this.SCALE, 32*this.SCALE
 
+        //green
         if (bodyTile == Map.TILE)
             collisionHalo[0].set((int)bottomLeft.x, (int)bottomLeft.y, 1, 1);
         else
             collisionHalo[0].set(-1, -1, 0, 0);
+
+        //cyan
         if (frontTile == Map.TILE)
             collisionHalo[1].set((int)bottomRight.x, (int)bottomRight.y, 1, 1);
         else
             collisionHalo[1].set(-1, -1, 0, 0);
+
+        //red
         if (frontUpperTile == Map.TILE)
             collisionHalo[2].set((int)topRight.x, (int)topRight.y, 1, 1);
         else
             collisionHalo[2].set(-1, -1, 0, 0);
+
+        //white
         if (bodyUpperTile == Map.TILE)
             collisionHalo[3].set((int)topLeft.x, (int)topLeft.y, 1, 1);
         else
             collisionHalo[3].set(-1, -1, 0, 0);
 
+        //purple
         collisionHalo[4].set(-1, -1, 0, 0);
     }
 
