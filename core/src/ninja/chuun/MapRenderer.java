@@ -104,7 +104,7 @@ public class MapRenderer {
         this.endDoor = new TextureRegion(new Texture(Gdx.files.internal("enddoor.png")));
         walkSheet = new Texture(Gdx.files.internal("sprites.png"));
 
-        TextureRegion[] lavaTexture = new TextureRegion(walkSheet).split(32, 32)[1];
+        TextureRegion[] lavaTexture = new TextureRegion(new Texture(Gdx.files.internal("lava.png"))).split(32, 32)[0];
 
         TextureRegion[] chuunTexture = new TextureRegion(walkSheet).split(32, 32)[0];
 
