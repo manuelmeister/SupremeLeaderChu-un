@@ -30,8 +30,8 @@ public class Map {
     ArrayList<Lava> lavas = new ArrayList<Lava>();
     NextLevel nextLevel;
 
-    public Map() {
-        loadMap(3);
+    public Map(int level) {
+        loadMap(level);
     }
 
     private void loadMap(int level) {
