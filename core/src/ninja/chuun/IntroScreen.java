@@ -66,7 +66,7 @@ public class IntroScreen implements Screen {
 
         Texture walkSheet = new Texture(Gdx.files.internal("chu-un.png"));
 
-        TextureRegion[] chuunTexture = TextureRegion.split(walkSheet, walkSheet.getWidth() / 8, walkSheet.getHeight() / 1)[0];
+        TextureRegion[] chuunTexture = new TextureRegion(walkSheet).split(32, 32)[0];
 
         chu_unAnimation = new Animation(0.25f, Arrays.copyOfRange(chuunTexture, 1, 8));
 

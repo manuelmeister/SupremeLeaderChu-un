@@ -151,22 +151,7 @@ public class MapRenderer {
         System.out.println(map.endDoor != null);
         spriteBatch.end();
 
-        debugRenderer.setProjectionMatrix(camera.combined);
-        debugRenderer.begin(ShapeRenderer.ShapeType.Filled);
-
-        Rectangle[] collisionHalo = map.chuun.collisionHalo;
-        debugRenderer.setColor(new Color(0, 1, 0, 1));
-        debugRenderer.rect(collisionHalo[0].x, collisionHalo[0].y, 1, 1);
-        debugRenderer.setColor(new Color(0, 1, 1, 1));
-        debugRenderer.rect(collisionHalo[1].x, collisionHalo[1].y, 1, 1);
-        debugRenderer.setColor(new Color(1, 0, 0, 1));
-        debugRenderer.rect(collisionHalo[2].x, collisionHalo[2].y, 1, 1);
-        debugRenderer.setColor(new Color(1, 1, 1, 1));
-        debugRenderer.rect(collisionHalo[3].x, collisionHalo[3].y, 1, 1);
-        debugRenderer.setColor(new Color(1, 0, 1, 1));
-        debugRenderer.rect(collisionHalo[4].x, collisionHalo[4].y, 1, 1);
-
-        debugRenderer.end();
+        //debugRenderer();
 
         fps.log();
     }
@@ -191,6 +176,25 @@ public class MapRenderer {
         }
         currentFrame = animation.getKeyFrame(map.chuun.stateTime,loopAnimation);
         spriteBatch.draw(currentFrame,Gdx.graphics.getWidth()/2 - map.chuun.bounds.width*32/2,Gdx.graphics.getHeight()/2, currentFrame.getRegionWidth(), currentFrame.getRegionHeight());
+    }
+
+    private void debugRenderer(){
+        debugRenderer.setProjectionMatrix(camera.combined);
+        debugRenderer.begin(ShapeRenderer.ShapeType.Filled);
+
+        Rectangle[] collisionHalo = map.chuun.collisionHalo;
+        debugRenderer.setColor(new Color(0, 1, 0, 1));
+        debugRenderer.rect(collisionHalo[0].x, collisionHalo[0].y, 1, 1);
+        debugRenderer.setColor(new Color(0, 1, 1, 1));
+        debugRenderer.rect(collisionHalo[1].x, collisionHalo[1].y, 1, 1);
+        debugRenderer.setColor(new Color(1, 0, 0, 1));
+        debugRenderer.rect(collisionHalo[2].x, collisionHalo[2].y, 1, 1);
+        debugRenderer.setColor(new Color(1, 1, 1, 1));
+        debugRenderer.rect(collisionHalo[3].x, collisionHalo[3].y, 1, 1);
+        debugRenderer.setColor(new Color(1, 0, 1, 1));
+        debugRenderer.rect(collisionHalo[4].x, collisionHalo[4].y, 1, 1);
+
+        debugRenderer.end();
     }
 
     public void dispose() {
