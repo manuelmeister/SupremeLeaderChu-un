@@ -197,6 +197,7 @@ public class Chuun {
 
         if ((map.isDeadly(frontTile) || map.isDeadly(bodyTile) || map.isDeadly(frontUpperTile) || map.isDeadly(bodyUpperTile))) {
             state = DEAD;
+            supremeDead.play();
             stateTime = 0;
         }
 
