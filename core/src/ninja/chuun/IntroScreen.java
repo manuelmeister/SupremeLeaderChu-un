@@ -82,7 +82,7 @@ public class IntroScreen implements Screen {
 
         //mapRenderer.render(delta);
 
-        if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)){
+        if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY) && !Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
             game.setScreen(new GameScreen(game));
         }
 

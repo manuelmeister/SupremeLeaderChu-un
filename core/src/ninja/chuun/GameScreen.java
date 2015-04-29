@@ -33,7 +33,7 @@ public class GameScreen implements Screen {
 	public void render(float delta) {
 		delta = Math.min(0.06f, Gdx.graphics.getDeltaTime());
 
-		if (map.chuun.state == 7){
+		if (map.chuun.state == map.chuun.WIN){
 			game.setScreen(new WinScreen(game));
 		}
 
@@ -54,6 +54,7 @@ public class GameScreen implements Screen {
 
 		if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
 			//TODO embed main menu screen
+			game.setScreen(new IntroScreen(game));
 			System.out.println("Main menu");//game.setScreen(new MainMenu(game));
 		}
 	}
