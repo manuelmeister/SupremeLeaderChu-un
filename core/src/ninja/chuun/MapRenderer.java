@@ -36,9 +36,9 @@ public class MapRenderer {
 
     SpriteBatch spriteBatch;
     TextureRegion currentFrame;
-    TextureRegion[] tiles;
+    TextureRegion[] textureTiles;
     Random tileRandom;
-    TextureRegion spikes;
+    TextureRegion spike;
     TextureRegion nextLevel;
     TextureRegion endDoor;
 
@@ -83,9 +83,10 @@ public class MapRenderer {
                         if (y > height) continue;
                         int posX = x;
                         int posY = height - y - 1;
-
-                        if (map.tiles[x][y] == Map.TILE) mapCache.add(tiles[tileRandom.nextInt(5)], posX, posY, 1, 1);
-                        if (map.tiles[x][y] == Map.SPIKES) mapCache.add(spikes, posX, posY, 1, 1);
+                        Gdx.gl.glEnable(GL20.GL_BLEND);
+                        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+                        if (map.tiles[x][y] == Map.TILE) mapCache.add(textureTiles[tileRandom.nextInt(5)], posX, posY, 1, 1);
+                        //if (map.tiles[x][y] == Map.SPIKES) mapCache.add(spike, posX, posY, 1, 1);
                         //if (map.tiles[x][y] == Map.END)
                         //    mapCache.add(endDoor, posX, posY, 1, 1);
                     }
@@ -98,8 +99,8 @@ public class MapRenderer {
     }
 
     private void createAnimation() {
-        this.tiles = new TextureRegion(new Texture(Gdx.files.internal("tile32.png"))).split(32, 32)[0];
-        this.spikes = this.tiles[6];
+        this.textureTiles = new TextureRegion(new Texture(Gdx.files.internal("tile32.png"))).split(32, 32)[0];
+        this.spike = this.textureTiles[6];
         this.nextLevel = new TextureRegion(new Texture(Gdx.files.internal("door.png")));
         this.endDoor = new TextureRegion(new Texture(Gdx.files.internal("enddoor.png")));
         walkSheet = new Texture(Gdx.files.internal("sprites.png"));
@@ -155,8 +156,11 @@ public class MapRenderer {
         mapCache.end();
 
         spriteBatch.begin();
+
         renderChuun();
         renderLava();
+        renderSpikes();
+
         if (map.nextLevel != null)
             spriteBatch.draw(this.nextLevel, map.nextLevel.pos.x, map.nextLevel.pos.y, 1, 1);
         System.out.println(map.endDoor != null);
@@ -165,6 +169,12 @@ public class MapRenderer {
         //debugRenderer();
 
         fps.log();
+    }
+
+    private void renderSpikes() {
+        for (Spike spike : map.spikes) {
+            spriteBatch.draw(this.spike,spike.pos.x,spike.pos.y,1,1);
+        }
     }
 
     private void renderLava() {
@@ -220,7 +230,7 @@ public class MapRenderer {
     public void dispose() {
         mapCache.dispose();
         batch.dispose();
-        for (TextureRegion tile : tiles) {
+        for (TextureRegion tile : textureTiles) {
             tile.getTexture().dispose();
         }
     }
