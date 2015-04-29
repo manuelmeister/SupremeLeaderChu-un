@@ -21,7 +21,7 @@ import java.util.Arrays;
 public class IntroScreen implements Screen {
 
     Game game;
-    private int startLevel = 6;
+    private int startLevel = 1;
     private Music supremeMusic;
     private Music gong;
     private Music pressanykey;
