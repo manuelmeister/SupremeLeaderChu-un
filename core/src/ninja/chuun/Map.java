@@ -16,6 +16,7 @@ public class Map {
     static final int SCIENTIST = 0x0000ff;
     static final int COLLECTABLE = 0xffff00;
     static final int LAVA = 0xff4400;
+    static final int NEXTLEVEL = 0xff22ff;
     static final int END = 0xff00ff;
 
     int[][] tiles;
@@ -82,5 +83,9 @@ public class Map {
             chuun.state = Chuun.SPAWN;
         }
         chuun.update(delta);
+    }
+
+    public boolean isNextLevel(int frontTile) {
+        return frontTile == NEXTLEVEL;
     }
 }
