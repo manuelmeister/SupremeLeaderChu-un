@@ -8,10 +8,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteCache;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 import java.util.Arrays;
+import java.util.Random;
 
 public class MapRenderer {
 
@@ -36,7 +36,8 @@ public class MapRenderer {
 
     SpriteBatch spriteBatch;
     TextureRegion currentFrame;
-    TextureRegion tile;
+    TextureRegion[] tiles;
+    Random tileRandom;
     TextureRegion spikes;
     TextureRegion endDoor;
 
@@ -54,6 +55,8 @@ public class MapRenderer {
     public MapRenderer(Map map) {
         this.map = map;
         this.camera = new OrthographicCamera(15, 10);
+
+        this.tileRandom = new Random();
 
         this.camera.position.set(map.chuun.pos.x, map.chuun.pos.y, 0);
         this.mapCache = new SpriteCache(this.map.tiles.length * this.map.tiles[0].length, false);
@@ -80,7 +83,7 @@ public class MapRenderer {
                         int posX = x;
                         int posY = height - y - 1;
 
-                        if (map.tiles[x][y] == Map.TILE) mapCache.add(tile, posX, posY, 1, 1);
+                        if (map.tiles[x][y] == Map.TILE) mapCache.add(tiles[tileRandom.nextInt(5)], posX, posY, 1, 1);
                         if (map.tiles[x][y] == Map.SPIKES) mapCache.add(spikes, posX, posY, 1, 1);
                         //if (map.tiles[x][y] == Map.END)
                         //    mapCache.add(endDoor, posX, posY, 1, 1);
@@ -94,7 +97,7 @@ public class MapRenderer {
     }
 
     private void createAnimation() {
-        this.tile = new TextureRegion(new Texture(Gdx.files.internal("tile32.png")));
+        this.tiles = new TextureRegion(new Texture(Gdx.files.internal("tile32.png"))).split(32, 32)[0];
         this.spikes = new TextureRegion(new Texture(Gdx.files.internal("bucket.png")));
         this.endDoor = new TextureRegion(new Texture(Gdx.files.internal("door.png")));
         walkSheet = new Texture(Gdx.files.internal("sprites.png"));
@@ -215,6 +218,8 @@ public class MapRenderer {
     public void dispose() {
         mapCache.dispose();
         batch.dispose();
-        tile.getTexture().dispose();
+        for (TextureRegion tile : tiles) {
+            tile.getTexture().dispose();
+        }
     }
 }

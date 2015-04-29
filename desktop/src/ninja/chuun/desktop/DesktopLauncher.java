@@ -10,6 +10,7 @@ import ninja.chuun.SupremeGame;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+		config.samples = 1;
 		new LwjglApplication(new SupremeGame(), config);
 
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
