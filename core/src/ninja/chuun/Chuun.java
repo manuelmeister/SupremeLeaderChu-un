@@ -40,6 +40,7 @@ public class Chuun {
 
     private Music supremeSteps = Gdx.audio.newMusic(Gdx.files.internal("sound/steps.mp3"));
     private Music supremeJump = Gdx.audio.newMusic(Gdx.files.internal("sound/jump.mp3"));
+    private Music supremeDead = Gdx.audio.newMusic(Gdx.files.internal("sound/dead.mp3"));
 
     public Rectangle bounds = new Rectangle();
     static final Vector2 SCALE = new Vector2(1, 1);
@@ -213,7 +214,7 @@ public class Chuun {
 
         System.out.println(map.isTrampolin(0x0026FF));
 
-        if ((map.isTrampolin(bodyTile)) || map.isTrampolin(frontTile) || map.isTrampolin(frontUpperTile) || map.isTrampolin(bodyUpperTile))  {
+        if ((map.isTrampolin(bodyTile)) || map.isTrampolin(frontTile)){// || map.isTrampolin(frontUpperTile) || map.isTrampolin(bodyUpperTile))  {
             System.out.println("-------- Trampolin! --------");
             state = TRAMPOLIN;
 
