@@ -10,14 +10,15 @@ import com.badlogic.gdx.math.Vector2;
 import java.text.DecimalFormat;
 
 public class Chuun {
-    final String[] states = {"IDLE","RUN","","JUMP","DYING","SPAWN", "DEAD", "WIN"};
+    final String[] states = {"IDLE","RUN","","JUMP","DYING","SPAWN", "DEAD", "NEXTLEVEL","WIN"};
     static final byte IDLE = 0;
     static final byte RUN = 1;
     static final byte JUMP = 3;
     static final byte DYING = 4;
     static final byte SPAWN = 5;
     static final byte DEAD = 6;
-    static final byte WIN = 7;
+    static final byte NEXTLEVEL = 8;
+    static final byte WIN = 9;
 
     static final byte LEFT = -1;
     static final byte RIGHT = 1;
@@ -188,6 +189,12 @@ public class Chuun {
 
         if ((map.isDeadly(frontTile) || map.isDeadly(bodyTile) || map.isDeadly(frontUpperTile) || map.isDeadly(bodyUpperTile))) {
             state = DEAD;
+            stateTime = 0;
+        }
+
+        if ((map.isNextLevel(frontTile)) || map.isNextLevel(bodyTile) || map.isNextLevel(frontUpperTile) || map.isNextLevel(bodyUpperTile))  {
+            System.out.println("-------- Next Level! --------");
+            state = NEXTLEVEL;
             stateTime = 0;
         }
 
