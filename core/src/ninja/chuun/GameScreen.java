@@ -16,11 +16,13 @@ import com.badlogic.gdx.utils.TimeUtils;
 
 public class GameScreen implements Screen {
 
-	public GameScreen (Game game) {
+	public GameScreen (Game game, int level) {
 		this.game = game;
+		this.level = level;
 	}
 
 	Game game;
+	int level;
 	Map map;
 	MapRenderer mapRenderer;
 	private Music supremeMusic;
