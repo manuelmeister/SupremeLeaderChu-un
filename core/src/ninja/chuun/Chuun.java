@@ -53,10 +53,10 @@ public class Chuun {
     public Chuun(Map map, Vector2 pos) {
         this.map = map;
         this.pos = pos;
-        bounds.width = 0.5f;
-        bounds.height = 1f;
-        bounds.x = pos.x + 0.25f;
-        bounds.y = pos.y;
+        this.bounds.width = 0.5f;
+        this.bounds.height = 0.95f;
+        this.bounds.x = this.pos.x + 0.25f;
+        this.bounds.y = this.pos.y;
 
         this.state = SPAWN;
         this.dir = LEFT;
@@ -186,7 +186,7 @@ public class Chuun {
         int frontUpperTile = tiles[(int)topRight.x][map.tiles[0].length - 1 - (int)topRight.y];
         int bodyUpperTile = tiles[(int)topLeft.x][map.tiles[0].length - 1 - (int)topLeft.y];
 
-        if ((map.isDeadly(frontTile))){ // || map.isDeadly(bodyTile) || map.isDeadly(frontUpperTile) || map.isDeadly(bodyUpperTile))) {
+        if ((map.isDeadly(frontTile) || map.isDeadly(bodyTile) || map.isDeadly(frontUpperTile) || map.isDeadly(bodyUpperTile))) {
             state = DEAD;
             stateTime = 0;
         }
