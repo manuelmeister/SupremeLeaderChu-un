@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Map {
 
@@ -14,6 +15,7 @@ public class Map {
     static final int SPIKES = 0x00ff00;
     static final int SCIENTIST = 0x0000ff;
     static final int COLLECTABLE = 0xffff00;
+    static final int LAVA = 0xff4400;
     static final int END = 0xff00ff;
 
     int[][] tiles;
@@ -24,6 +26,7 @@ public class Map {
     ArrayList<Scientist> scientists = new ArrayList<Scientist>();
     ArrayList<Spike> spikes = new ArrayList<Spike>();
     ArrayList<Collectable> collectables = new ArrayList<Collectable>();
+    ArrayList<Lava> lavas = new ArrayList<Lava>();
 
     public Map() {
         loadMap(2);
@@ -50,12 +53,15 @@ public class Map {
                     Collectable collectable = new Collectable(this, x, pixelmap.getHeight() - 1 - y);
                     collectables.add(collectable);
 
+                }else if (pixel == LAVA) {
+                    Lava lava = new Lava(this, x, pixelmap.getHeight() - 1 - y);
+                    lavas.add(lava);
+
                 } else if (pixel == END) {
                     endDoor = new EndDoor(this, x, pixelmap.getHeight() - 1 - y);
 
-                } else {
-                    tiles[x][y] = pixel;
                 }
+                tiles[x][y] = pixel;
 
             }
         }
@@ -63,7 +69,7 @@ public class Map {
     }
 
     public boolean isDeadly(int tile) {
-        return tile == SPIKES;
+        return (tile == SPIKES || tile == LAVA);
     }
 
     public boolean isWin(int tile) {
