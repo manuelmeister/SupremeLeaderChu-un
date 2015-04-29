@@ -53,7 +53,7 @@ public class MapRenderer {
 
     public MapRenderer(Map map) {
         this.map = map;
-        this.camera = new OrthographicCamera(24, 16);
+        this.camera = new OrthographicCamera(15, 10);
 
         this.camera.position.set(map.chuun.pos.x, map.chuun.pos.y, 0);
         this.mapCache = new SpriteCache(this.map.tiles.length * this.map.tiles[0].length, false);
@@ -116,7 +116,7 @@ public class MapRenderer {
 
         chuun_resting = new Animation(0, chuunTexture[0]);
 
-        lava = new Animation(0.2f,lavaTexture);
+        lava = new Animation(0.1f,lavaTexture);
 
         spriteBatch = new SpriteBatch();
         stateTime = 0f;
@@ -151,15 +151,22 @@ public class MapRenderer {
 
         spriteBatch.begin();
         renderChuun();
+        renderLava();
         System.out.println(map.endDoor.bounds.x + "  " + map.endDoor.bounds.y + "  " + this.endDoor);
         if (map.endDoor != null)
             spriteBatch.draw(this.endDoor, map.endDoor.bounds.x, map.endDoor.bounds.y, 1, 1);
         System.out.println(map.endDoor != null);
         spriteBatch.end();
 
-        debugRenderer();
+        //debugRenderer();
 
         fps.log();
+    }
+
+    private void renderLava() {
+        for (Lava lava : map.lavas) {
+            spriteBatch.draw(this.lava.getKeyFrame(Lava.stateTime++),lava.pos.x,lava.pos.y,1,1);
+        }
     }
 
     private void renderChuun() {
@@ -182,7 +189,7 @@ public class MapRenderer {
         }
         currentFrame = animation.getKeyFrame(map.chuun.stateTime,loopAnimation);
         //spriteBatch.draw(currentFrame,Gdx.graphics.getWidth()/2 - map.chuun.bounds.width*32/2,Gdx.graphics.getHeight()/2, currentFrame.getRegionWidth(), currentFrame.getRegionHeight());
-        spriteBatch.draw(currentFrame,map.chuun.bounds.x,map.chuun.bounds.y, 1, 1);
+        spriteBatch.draw(currentFrame,map.chuun.pos.x,map.chuun.pos.y, 1, 1);
     }
 
     private void debugRenderer(){
@@ -190,6 +197,8 @@ public class MapRenderer {
         debugRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
         Rectangle[] collisionHalo = map.chuun.collisionHalo;
+        debugRenderer.setColor(new Color(0, 0.7f, 0.5f, 1));
+        debugRenderer.rect(map.chuun.bounds.x, map.chuun.bounds.y, map.chuun.bounds.width, map.chuun.bounds.height);
         debugRenderer.setColor(new Color(0, 1, 0, 1));
         debugRenderer.rect(collisionHalo[0].x, collisionHalo[0].y, 1, 1);
         debugRenderer.setColor(new Color(0, 1, 1, 1));
