@@ -37,6 +37,7 @@ public class MapRenderer {
     SpriteBatch spriteBatch;
     TextureRegion currentFrame;
     TextureRegion[] textureTiles;
+    TextureRegion[] specialTiles;
     Random tileRandom;
     TextureRegion spike;
     TextureRegion nextLevel;
@@ -56,7 +57,7 @@ public class MapRenderer {
 
     public MapRenderer(Map map) {
         this.map = map;
-        this.camera = new OrthographicCamera(15, 10);
+        this.camera = new OrthographicCamera(18, 12);
 
         this.tileRandom = new Random();
 
@@ -86,7 +87,8 @@ public class MapRenderer {
                         int posY = height - y - 1;
                         Gdx.gl.glEnable(GL20.GL_BLEND);
                         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-                        if (map.tiles[x][y] == Map.TILE) mapCache.add(textureTiles[tileRandom.nextInt(5)], posX, posY, 1, 1);
+                        //TODO 1.05f bechause it had lines
+                        if (map.tiles[x][y] == Map.TILE) mapCache.add(textureTiles[tileRandom.nextInt(textureTiles.length)], posX, posY, 1.05f, 1.05f);
                         //if (map.tiles[x][y] == Map.SPIKES) mapCache.add(spike, posX, posY, 1, 1);
                         //if (map.tiles[x][y] == Map.END)
                         //    mapCache.add(endDoor, posX, posY, 1, 1);
@@ -101,7 +103,8 @@ public class MapRenderer {
 
     private void createAnimation() {
         this.textureTiles = new TextureRegion(new Texture(Gdx.files.internal("tile32.png"))).split(32, 32)[0];
-        this.spike = this.textureTiles[6];
+        this.specialTiles = new TextureRegion(new Texture(Gdx.files.internal("specialtile32.png"))).split(32, 32)[0];
+        this.spike = this.specialTiles[1];
         this.nextLevel = new TextureRegion(new Texture(Gdx.files.internal("door.png")));
         this.endDoor = new TextureRegion(new Texture(Gdx.files.internal("enddoor.png")));
         this.trampolin = new TextureRegion(new Texture(Gdx.files.internal("trampolin.png")));
@@ -138,6 +141,7 @@ public class MapRenderer {
     public void render(float deltaTime) {
         map.chuun.updateState();
 
+        camera.zoom = 1.5f;
         camera.position.lerp(lerpTarget.set(map.chuun.pos, 0), 10f * deltaTime);
         camera.update();
 
