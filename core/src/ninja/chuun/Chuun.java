@@ -213,7 +213,7 @@ public class Chuun {
 
         System.out.println(map.isTrampolin(0x0026FF));
 
-        if ((map.isTrampolin(bodyTile)) || map.isTrampolin(frontTile) || map.isTrampolin(frontUpperTile) || map.isTrampolin(bodyUpperTile))  {
+        if ((map.isTrampolin(bodyTile))) {//|| map.isTrampolin(frontTile) || map.isTrampolin(frontUpperTile) || map.isTrampolin(bodyUpperTile))  {
             System.out.println("-------- Trampolin! --------");
             state = TRAMPOLIN;
 
