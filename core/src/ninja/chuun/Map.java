@@ -48,9 +48,9 @@ public class Map {
                     chuun = new Chuun(this, new Vector2(spawn.pos.x, spawn.pos.y));
                     chuun.state = Chuun.SPAWN;
 
-                } else if (pixel == SCIENTIST) {
-                    Scientist scientist = new Scientist(this, x, pixelmap.getHeight() - 1 - y);
-                    scientists.add(scientist);
+                } else if (pixel == SPIKES) {
+                    Spike spike = new Spike(this, x, pixelmap.getHeight() - 1 - y);
+                    spikes.add(spike);
 
                 } else if (pixel == COLLECTABLE) {
                     Collectable collectable = new Collectable(this, x, pixelmap.getHeight() - 1 - y);
