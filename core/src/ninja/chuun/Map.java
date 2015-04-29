@@ -12,13 +12,13 @@ public class Map {
     static final int EMPTY = 0;
     static final int TILE = 0xffffff;
     static final int SPAWN = 0xff0000; //red
-    static final int SPIKES = 0x00ff00;
-    static final int SCIENTIST = 0x0000ff;
+    static final int SPIKES = 0xAABBAA; //green
+    static final int SCIENTIST = 0x0000ff; //blue
     static final int COLLECTABLE = 0xffff00; //yellow
     static final int LAVA = 0xFF9000; //orange (salt)
     static final int NEXTLEVEL = 0x00FF21; //Hellgrün
     static final int END = 0x00FFFF;  //cyan
-    static final int TRAMPOLIN = 0x0026FF; //dunkelblau
+    static final int TRAMPOLIN = 0xFF00FF; //dunkelblau
 
     int[][] tiles;
     Pixmap pixelmap;
