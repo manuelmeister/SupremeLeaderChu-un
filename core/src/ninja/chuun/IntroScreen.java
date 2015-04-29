@@ -1,6 +1,7 @@
 package ninja.chuun;
 
 import com.badlogic.gdx.*;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -20,9 +21,14 @@ import java.util.Arrays;
 public class IntroScreen implements Screen {
 
     Game game;
+    private Music supremeMusic;
 
     public IntroScreen (Game game) {
         this.game = game;
+        supremeMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/music.mp3"));
+        supremeMusic.setVolume(0.05f);
+        supremeMusic.setLooping(true);
+        supremeMusic.play();
     }
 
     private OrthographicCamera camera;
@@ -83,6 +89,8 @@ public class IntroScreen implements Screen {
         //mapRenderer.render(delta);
 
         if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY) && !Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
+            supremeMusic.stop();
+            //base.play();
             game.setScreen(new GameScreen(game));
         }
 

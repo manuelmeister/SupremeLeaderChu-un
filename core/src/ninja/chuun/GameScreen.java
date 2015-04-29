@@ -1,6 +1,7 @@
 package ninja.chuun;
 
 import com.badlogic.gdx.*;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -22,11 +23,16 @@ public class GameScreen implements Screen {
 	Game game;
 	Map map;
 	MapRenderer mapRenderer;
+	private Music supremeMusic;
 
 	@Override
 	public void show() {
 		map = new Map();
 		mapRenderer = new MapRenderer(map);
+		supremeMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/music.mp3"));
+		supremeMusic.setVolume(0.02f);
+		supremeMusic.setLooping(true);
+		supremeMusic.play();
 	}
 
 	@Override

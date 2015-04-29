@@ -2,6 +2,8 @@ package ninja.chuun;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -33,6 +35,9 @@ public class Chuun {
 
     Map map;
 
+    private Music supremeSteps = Gdx.audio.newMusic(Gdx.files.internal("sound/steps.mp3"));
+    private Music supremeJump = Gdx.audio.newMusic(Gdx.files.internal("sound/jump.mp3"));
+
     public Rectangle bounds = new Rectangle();
     static final Vector2 SCALE = new Vector2(1, 1);
 
@@ -55,6 +60,9 @@ public class Chuun {
 
         this.state = SPAWN;
         this.dir = LEFT;
+
+        supremeSteps.setVolume(0.1f);
+        supremeJump.setVolume(1f);
     }
 
     public void update(float deltaTime){
@@ -97,14 +105,17 @@ public class Chuun {
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             this.dir = LEFT;
             movement = true;
+            if (!supremeSteps.isPlaying() && !(this.state == JUMP)) supremeSteps.play();
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             this.dir = RIGHT;
             movement = true;
+            if (!supremeSteps.isPlaying() && !(this.state == JUMP)) supremeSteps.play();
         }
         if (Gdx.input.isKeyPressed(Input.Keys.W) && this.state != JUMP) {
-            System.out.println("---- jump ----");
             this.state = JUMP;
+            supremeSteps.stop();
+            supremeJump.play();
             vel.y = JUMP_VELOCITY;
             movement = true;
             grounded = false;
@@ -113,6 +124,7 @@ public class Chuun {
             if (state != JUMP) state = RUN;
             accel.x = Acceleration * dir;
         } else {
+            supremeSteps.stop();
             if (state != JUMP) state = IDLE;
             accel.x = 0;
         }
