@@ -99,7 +99,7 @@ public class MapRenderer {
 
     private void createAnimation() {
         this.tiles = new TextureRegion(new Texture(Gdx.files.internal("tile32.png"))).split(32, 32)[0];
-        this.spikes = new TextureRegion(new Texture(Gdx.files.internal("bucket.png")));
+        this.spikes = this.tiles[6];
         this.nextLevel = new TextureRegion(new Texture(Gdx.files.internal("door.png")));
         this.endDoor = new TextureRegion(new Texture(Gdx.files.internal("enddoor.png")));
         walkSheet = new Texture(Gdx.files.internal("sprites.png"));
