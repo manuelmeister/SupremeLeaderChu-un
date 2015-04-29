@@ -38,6 +38,7 @@ public class MapRenderer {
     TextureRegion currentFrame;
     TextureRegion tile;
     TextureRegion spikes;
+    TextureRegion endDoor;
 
     int[][] blocks;
 
@@ -45,6 +46,8 @@ public class MapRenderer {
     Animation chuun_right;
     Animation chuun_left;
     Animation chuun_resting;
+    Animation chuun_jump_right;
+    Animation chuun_jump_left;
 
 
 
@@ -79,6 +82,8 @@ public class MapRenderer {
 
                         if (map.tiles[x][y] == Map.TILE) mapCache.add(tile, posX, posY, 1, 1);
                         if (map.tiles[x][y] == Map.SPIKES) mapCache.add(spikes, posX, posY, 1, 1);
+                        //if (map.tiles[x][y] == Map.END)
+                        //    mapCache.add(endDoor, posX, posY, 1, 1);
                     }
                 }
 
@@ -91,6 +96,7 @@ public class MapRenderer {
     private void createAnimation() {
         this.tile = new TextureRegion(new Texture(Gdx.files.internal("tile32.png")));
         this.spikes = new TextureRegion(new Texture(Gdx.files.internal("bucket.png")));
+        this.endDoor = new TextureRegion(new Texture(Gdx.files.internal("door.png")));
         walkSheet = new Texture(Gdx.files.internal("chu-un.png"));
 
         TextureRegion[] chuunTexture = new TextureRegion(walkSheet).split(32, 32)[0];
@@ -103,10 +109,14 @@ public class MapRenderer {
         chuun_right = new Animation(CHUUN_RATE, Arrays.copyOfRange(chuunTexture, 1, 8));
         chuun_left = new Animation(CHUUN_RATE, Arrays.copyOfRange(chuunTextureMirrored, 1, 8));
 
+        chuun_jump_right = new Animation(CHUUN_RATE, chuunTexture[8]);
+        chuun_jump_left = new Animation(CHUUN_RATE, chuunTextureMirrored[8]);
+
         chuun_resting = new Animation(0, chuunTexture[0]);
 
         spriteBatch = new SpriteBatch();
         stateTime = 0f;
+
     }
 
     Vector3 lerpTarget = new Vector3();
@@ -136,6 +146,9 @@ public class MapRenderer {
 
         spriteBatch.begin();
         renderChuun();
+        System.out.println(map.endDoor.bounds.x + "  " + map.endDoor.bounds.y + "  " + this.endDoor);
+        if (map.endDoor != null) spriteBatch.draw(this.endDoor, map.endDoor.bounds.x, map.endDoor.bounds.y, 1, 1);
+        System.out.println(map.endDoor != null);
         spriteBatch.end();
 
         debugRenderer.setProjectionMatrix(camera.combined);
@@ -166,6 +179,12 @@ public class MapRenderer {
                 animation = chuun_right;
             } else if (map.chuun.dir == map.chuun.LEFT) {
                 animation = chuun_left;
+            }
+        } else if (map.chuun.state == map.chuun.JUMP) {
+            if (map.chuun.dir == map.chuun.RIGHT) {
+                animation = chuun_jump_right;
+            } else if (map.chuun.dir == map.chuun.LEFT) {
+                animation = chuun_jump_left;
             }
         } else {
             animation = chuun_resting;

@@ -179,7 +179,8 @@ public class Chuun {
             stateTime = 0;
         }
 
-        if (map.isWin(frontTile)) {
+        if ((map.isWin(frontTile)) || map.isWin(bodyTile) || map.isWin(frontUpperTile) || map.isWin(bodyUpperTile))  {
+            System.out.println("-------- Win! --------");
             state = WIN;
             stateTime = 0;
         }
