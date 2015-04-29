@@ -1,6 +1,7 @@
 package ninja.chuun;
 
 import com.badlogic.gdx.*;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -19,9 +20,15 @@ import java.util.Arrays;
 
 public class WinScreen implements Screen {
     Game game;
+    private Music supremeMusic;
 
     public WinScreen (Game game) {
         this.game = game;
+        supremeMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/music.mp3"));
+        supremeMusic.setVolume(0.005f);
+        supremeMusic.setLooping(true);
+        supremeMusic.play();
+
     }
 
     private OrthographicCamera camera;
@@ -65,7 +72,7 @@ public class WinScreen implements Screen {
 
         Texture walkSheet = new Texture(Gdx.files.internal("sprites.png"));
 
-        TextureRegion[] chuunTexture = TextureRegion.split(walkSheet, walkSheet.getWidth() / 8, walkSheet.getHeight() / 1)[0];
+        TextureRegion[] chuunTexture = new TextureRegion(walkSheet).split(32, 32)[0];
 
         chu_unAnimation = new Animation(0.25f, Arrays.copyOfRange(chuunTexture, 1, 8));
 
@@ -81,9 +88,9 @@ public class WinScreen implements Screen {
 
         //mapRenderer.render(delta);
 
-        if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)){
-            game.setScreen(new GameScreen(game));
-        }
+       // if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)){
+            //game.setScreen(new GameScreen(game));
+        //}
 
         stateTime += Gdx.graphics.getDeltaTime();
         TextureRegion currentFrame = chu_unAnimation.getKeyFrame(stateTime, true);
