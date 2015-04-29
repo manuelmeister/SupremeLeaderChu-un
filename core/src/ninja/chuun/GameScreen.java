@@ -33,6 +33,10 @@ public class GameScreen implements Screen {
 	public void render(float delta) {
 		delta = Math.min(0.06f, Gdx.graphics.getDeltaTime());
 
+		if (map.chuun.state == 7){
+			game.setScreen(new WinScreen(game));
+		}
+
 		map.update(delta);
 
 		//Set Color to blue

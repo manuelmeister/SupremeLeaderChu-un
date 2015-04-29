@@ -8,13 +8,14 @@ import com.badlogic.gdx.math.Vector2;
 import java.text.DecimalFormat;
 
 public class Chuun {
-    final String[] states = {"IDLE","RUN","","JUMP","DYING","SPAWN", "DEAD"};
+    final String[] states = {"IDLE","RUN","","JUMP","DYING","SPAWN", "DEAD", "WIN"};
     static final byte IDLE = 0;
     static final byte RUN = 1;
     static final byte JUMP = 3;
     static final byte DYING = 4;
     static final byte SPAWN = 5;
     static final byte DEAD = 6;
+    static final byte WIN = 7;
 
     static final byte LEFT = -1;
     static final byte RIGHT = 1;
@@ -173,8 +174,13 @@ public class Chuun {
         int frontUpperTile = tiles[(int)topRight.x][map.tiles[0].length - 1 - (int)topRight.y];
         int bodyUpperTile = tiles[(int)topLeft.x][map.tiles[0].length - 1 - (int)topLeft.y];
 
-        if ((map.isDeadly(frontTile))){ // || map.isDeadly(frontTile) || map.isDeadly(frontUpperTile) || map.isDeadly(bodyUpperTile))) {
+        if ((map.isDeadly(frontTile))){ // || map.isDeadly(bodyTile) || map.isDeadly(frontUpperTile) || map.isDeadly(bodyUpperTile))) {
             state = DEAD;
+            stateTime = 0;
+        }
+
+        if (map.isWin(frontTile)) {
+            state = WIN;
             stateTime = 0;
         }
 

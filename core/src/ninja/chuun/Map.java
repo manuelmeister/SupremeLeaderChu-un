@@ -66,6 +66,10 @@ public class Map {
         return tile == SPIKES;
     }
 
+    public boolean isWin(int tile) {
+        return tile == END;
+    }
+
     public void update(float delta) {
         if (chuun.state == chuun.DEAD){
             chuun = new Chuun(this, new Vector2(spawn.pos.x, spawn.pos.y));
