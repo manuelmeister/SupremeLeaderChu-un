@@ -32,7 +32,7 @@ public class Chuun {
     static final float MAX_VEL = 6f;
     static final float DAMP = 0.50f;
     static final float JUMP_VELOCITY = 20;//7f;
-    static final float TRAMPOLIN_VELOCITY = 40;//7f;
+    static final float TRAMPOLIN_VELOCITY = 30;//7f;
 
     float stateTime = 0;
 

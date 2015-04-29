@@ -41,6 +41,7 @@ public class MapRenderer {
     TextureRegion spike;
     TextureRegion nextLevel;
     TextureRegion endDoor;
+    TextureRegion trampolin;
 
     int[][] blocks;
 
@@ -103,6 +104,8 @@ public class MapRenderer {
         this.spike = this.textureTiles[6];
         this.nextLevel = new TextureRegion(new Texture(Gdx.files.internal("door.png")));
         this.endDoor = new TextureRegion(new Texture(Gdx.files.internal("enddoor.png")));
+        this.trampolin = new TextureRegion(new Texture(Gdx.files.internal("trampolin.png")));
+
         walkSheet = new Texture(Gdx.files.internal("sprites.png"));
 
         TextureRegion[] lavaTexture = new TextureRegion(new Texture(Gdx.files.internal("lava.png"))).split(32, 32)[0];
@@ -157,13 +160,22 @@ public class MapRenderer {
 
         spriteBatch.begin();
 
+        renderTrampolins();
         renderChuun();
         renderLava();
         renderSpikes();
 
-        if (map.nextLevel != null)
+
+        if (map.nextLevel != null) {
             spriteBatch.draw(this.nextLevel, map.nextLevel.pos.x, map.nextLevel.pos.y, 1, 1);
-        System.out.println(map.endDoor != null);
+        } else {
+            spriteBatch.draw(this.endDoor, map.endDoor.bounds.x, map.endDoor.bounds.y, 1, 1);
+        }
+
+
+
+
+
         spriteBatch.end();
 
         //debugRenderer();
@@ -174,6 +186,12 @@ public class MapRenderer {
     private void renderSpikes() {
         for (Spike spike : map.spikes) {
             spriteBatch.draw(this.spike,spike.pos.x,spike.pos.y,1,1);
+        }
+    }
+
+    private void renderTrampolins() {
+        for (Trampolin trampolin : map.trampolins) {
+            spriteBatch.draw(this.trampolin,trampolin.bounds.x,trampolin.bounds.y,1,1);
         }
     }
 

@@ -29,6 +29,7 @@ public class Map {
     ArrayList<Spike> spikes = new ArrayList<Spike>();
     ArrayList<Collectable> collectables = new ArrayList<Collectable>();
     ArrayList<Lava> lavas = new ArrayList<Lava>();
+    ArrayList<Trampolin> trampolins = new ArrayList<Trampolin>();
     NextLevel nextLevel;
 
     public Map(int level) {
@@ -60,7 +61,11 @@ public class Map {
                     Lava lava = new Lava(this, x, pixelmap.getHeight() - 1 - y);
                     lavas.add(lava);
 
-                } else if (pixel == NEXTLEVEL) {
+                }else if (pixel == TRAMPOLIN) {
+                    Trampolin trampolin = new Trampolin(this, x, pixelmap.getHeight() - 1 - y);
+                    trampolins.add(trampolin);
+
+                }else if (pixel == NEXTLEVEL) {
                     nextLevel = new NextLevel(this, x, pixelmap.getHeight() - 1 - y);
 
                 }else if (pixel == END) {
