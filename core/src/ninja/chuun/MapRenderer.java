@@ -147,7 +147,8 @@ public class MapRenderer {
         spriteBatch.begin();
         renderChuun();
         System.out.println(map.endDoor.bounds.x + "  " + map.endDoor.bounds.y + "  " + this.endDoor);
-        if (map.endDoor != null) spriteBatch.draw(this.endDoor, map.endDoor.bounds.x, map.endDoor.bounds.y, 1, 1);
+        if (map.endDoor != null)
+            spriteBatch.draw(this.endDoor, map.endDoor.bounds.x, map.endDoor.bounds.y, 1, 1);
         System.out.println(map.endDoor != null);
         spriteBatch.end();
 
