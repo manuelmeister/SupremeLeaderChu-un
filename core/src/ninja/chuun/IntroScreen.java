@@ -23,15 +23,20 @@ public class IntroScreen implements Screen {
     Game game;
     private Music supremeMusic;
     private Music gong;
+    private Music pressanykey;
+    private float introTime = 0;
 
     public IntroScreen (Game game) {
         this.game = game;
         supremeMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/music.mp3"));
-        supremeMusic.setVolume(0.05f);
+        supremeMusic.setVolume(0.005f);
         supremeMusic.setLooping(true);
         supremeMusic.play();
         gong = Gdx.audio.newMusic(Gdx.files.internal("sound/gong.mp3"));
         gong.setVolume(0.1f);
+        pressanykey = Gdx.audio.newMusic(Gdx.files.internal("sound/pressanykey.mp3"));
+        pressanykey.setVolume(1);
+        pressanykey.play();
     }
 
     private OrthographicCamera camera;
@@ -84,6 +89,12 @@ public class IntroScreen implements Screen {
     @Override
     public void render(float delta) {
         delta = Math.min(0.06f, Gdx.graphics.getDeltaTime());
+
+        introTime += Gdx.graphics.getDeltaTime();
+        if (introTime > 6){
+            pressanykey.play();
+            introTime = 0;
+        }
 
         //Set Color to blue
         Gdx.gl.glClearColor(0, 0.8f, 0.2f, 1);
