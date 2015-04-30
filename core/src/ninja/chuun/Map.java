@@ -11,6 +11,7 @@ public class Map {
 
     static final int EMPTY = 0;
     static final int TILE = 0xffffff;
+    static final int FLOORTILE = 0xffdd00;
     static final int SPAWN = 0xff0000; //red
     static final int SPIKES = 0xAABBAA; //green
     static final int SCIENTIST = 0x0000ff; //blue

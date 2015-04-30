@@ -51,6 +51,7 @@ public class MapRenderer {
     Animation chuun_jump_right;
     Animation chuun_jump_left;
     Animation lava;
+    private TextureRegion floortile;
 
 
     public MapRenderer(Map map) {
@@ -87,7 +88,7 @@ public class MapRenderer {
                         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
                         //TODO 1.05f bechause it had lines
                         if (map.tiles[x][y] == Map.TILE) mapCache.add(textureTiles[tileRandom.nextInt(textureTiles.length)], posX, posY, 1.05f, 1.05f);
-                        //if (map.tiles[x][y] == Map.SPIKES) mapCache.add(spike, posX, posY, 1, 1);
+                        if (map.tiles[x][y] == Map.FLOORTILE) mapCache.add(floortile, posX, posY, 1.01f, 1.01f);
                         //if (map.tiles[x][y] == Map.END)
                         //    mapCache.add(endDoor, posX, posY, 1, 1);
                     }
@@ -102,6 +103,7 @@ public class MapRenderer {
     private void createAnimation() {
         this.textureTiles = new TextureRegion(new Texture(Gdx.files.internal("tile32.png"))).split(32, 32)[0];
         this.specialTiles = new TextureRegion(new Texture(Gdx.files.internal("specialtile32.png"))).split(32, 32)[0];
+        this.floortile = this.specialTiles[0];
         this.spike = this.specialTiles[1];
         this.nextLevel = new TextureRegion(new Texture(Gdx.files.internal("door.png")));
         this.endDoor = new TextureRegion(new Texture(Gdx.files.internal("enddoor.png")));

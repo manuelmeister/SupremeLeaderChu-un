@@ -221,25 +221,25 @@ public class Chuun {
         //TODO evtl. 1, 1 anpassen zu 16*this.SCALE, 32*this.SCALE
 
         //green
-        if (bodyTile == Map.TILE)
+        if (isWalkable(bodyTile))
             collisionHalo[0].set((int)bottomLeft.x, (int)bottomLeft.y, 1, 1);
         else
             collisionHalo[0].set(-1, -1, 0, 0);
 
         //cyan
-        if (frontTile == Map.TILE)
+        if (isWalkable(frontTile))
             collisionHalo[1].set((int)bottomRight.x, (int)bottomRight.y, 1, 1);
         else
             collisionHalo[1].set(-1, -1, 0, 0);
 
         //red
-        if (frontUpperTile == Map.TILE)
+        if (isWalkable(frontUpperTile))
             collisionHalo[2].set((int)topRight.x, (int)topRight.y, 1, 1);
         else
             collisionHalo[2].set(-1, -1, 0, 0);
 
         //white
-        if (bodyUpperTile == Map.TILE)
+        if (isWalkable(bodyUpperTile))
             collisionHalo[3].set((int)topLeft.x, (int)topLeft.y, 1, 1);
         else
             collisionHalo[3].set(-1, -1, 0, 0);
@@ -248,7 +248,7 @@ public class Chuun {
         collisionHalo[4].set(-1, -1, 0, 0);
     }
 
-    public Vector2 getBounds(){
-        return SCALE;
+    private boolean isWalkable(int tile){
+        return (tile == Map.TILE || tile == Map.FLOORTILE);
     }
 }
