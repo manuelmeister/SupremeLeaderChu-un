@@ -20,6 +20,9 @@ public class Map {
     static final int NEXTLEVEL = 0x00FF21; //Hellgrün
     static final int END = 0x00FFFF;  //cyan
     static final int TRAMPOLIN = 0xFF00FF; //dunkelblau
+    static final int ZOOM_NORMAL = 0x000030;
+    static final int ZOOM2 = 0x000060;
+    static final int ZOOM3 = 0x000090;
 
     int[][] tiles;
     Pixmap pixelmap;

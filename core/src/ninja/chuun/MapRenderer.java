@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteCache;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 import java.util.Arrays;
@@ -57,6 +58,7 @@ public class MapRenderer {
     public MapRenderer(Map map) {
         this.map = map;
         this.camera = new OrthographicCamera(15, 10);
+        this.camera.zoom = 1.5f;
 
         this.tileRandom = new Random();
 
@@ -141,7 +143,15 @@ public class MapRenderer {
     public void render(float deltaTime) {
         map.chuun.updateState();
 
-        camera.zoom = 1.5f;
+        int tile = map.tiles[(int)map.chuun.bounds.x][map.tiles[0].length - 1 - (int)Math.floor(map.chuun.bounds.y)];
+        if (tile == Map.ZOOM_NORMAL){
+            camera.zoom = 1.5f;
+        }else if (tile == Map.ZOOM2){
+            camera.zoom = 1f;
+        }else if (tile == Map.ZOOM3){
+            camera.zoom = 0.5f;
+        }
+
         camera.position.lerp(lerpTarget.set(map.chuun.pos.x,map.chuun.pos.y+(map.chuun.bounds.height*4), 0), 10f * deltaTime);
         camera.update();
 
