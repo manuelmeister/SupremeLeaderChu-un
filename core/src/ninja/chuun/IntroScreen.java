@@ -29,8 +29,19 @@ public class IntroScreen implements Screen {
     private Music gong;
     private Music pressanykey;
     private float introTime = 0;
+    private float chu_un_x = -50f;
+    private Texture background;
+    private TextureRegion backgroundRegion;
+    private Texture logo;
+    private TextureRegion logoRegion;
+    private Texture introspeech;
+    private TextureRegion introspeechRegion;
+    private Texture subtitle;
+    private TextureRegion subtitleRegion;
+    private Texture pavement;
+    private TextureRegion pavementRegion;
 
-    public IntroScreen (Game game) {
+    public IntroScreen(Game game) {
         this.game = game;
         supremeMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/music.mp3"));
         supremeMusic.setVolume(0.005f);
@@ -49,20 +60,12 @@ public class IntroScreen implements Screen {
     private Animation chu_unAnimation;
     float stateTime = 0f;
 
-    private Texture background = new Texture(Gdx.files.internal("GUI/background.png"));
-    private TextureRegion backgroundRegion = new TextureRegion(background);
-    private Texture logo = new Texture(Gdx.files.internal("logo.png"));
-    private TextureRegion logoRegion = new TextureRegion(logo);
-    private Texture introspeech = new Texture(Gdx.files.internal("GUI/introspeech.png"));
-    private TextureRegion introspeechRegion = new TextureRegion(introspeech);
-    private Texture subtitle = new Texture(Gdx.files.internal("GUI/subtitle.png"));
-    private TextureRegion subtitleRegion = new TextureRegion(subtitle);
 
     //Map map;
 
     private float x = 0;
 
-    private long startTime = System.nanoTime()/1000000000;
+    private long startTime = System.nanoTime() / 1000000000;
 
     //MapRenderer mapRenderer;
     ModelInstance instance;
@@ -70,24 +73,24 @@ public class IntroScreen implements Screen {
 
     @Override
     public void show() {
-
-        //load animations
-        //Map	map = new Map();
-        //mapRenderer = new MapRenderer(map);
-
-        //load and set camera
-        camera = new OrthographicCamera(160,117);
-        //camera.setToOrtho(false, 800, 480);
-
-        //instantiate SpriteBatch
         batch = new SpriteBatch();
+        background = new Texture(Gdx.files.internal("GUI/background.png"));
+        pavement = new Texture(Gdx.files.internal("GUI/pavement.png"));
+        pavementRegion = new TextureRegion(pavement);
+        backgroundRegion = new TextureRegion(background);
+        logo = new Texture(Gdx.files.internal("logo.png"));
+        logoRegion = new TextureRegion(logo);
+        introspeech = new Texture(Gdx.files.internal("GUI/introspeech.png"));
+        introspeechRegion = new TextureRegion(introspeech);
+        subtitle = new Texture(Gdx.files.internal("GUI/subtitle.png"));
+        subtitleRegion = new TextureRegion(subtitle);
 
-        batch.setProjectionMatrix(camera.combined);
+        batch.getProjectionMatrix().setToOrtho2D(0, 0, 160, 117);
         Texture walkSheet = new Texture(Gdx.files.internal("sprites.png"));
 
         TextureRegion[] chuunTexture = new TextureRegion(walkSheet).split(32, 32)[0];
 
-        chu_unAnimation = new Animation(0.25f, Arrays.copyOfRange(chuunTexture, 1, 8));
+        chu_unAnimation = new Animation(0.15f, Arrays.copyOfRange(chuunTexture, 1, 8));
 
     }
 
@@ -96,18 +99,18 @@ public class IntroScreen implements Screen {
         delta = Math.min(0.06f, Gdx.graphics.getDeltaTime());
 
         introTime += Gdx.graphics.getDeltaTime();
-        if (introTime > 6){
+        if (introTime > 6) {
             pressanykey.play();
             introTime = 0;
         }
 
         //Set Color to blue
-        Gdx.gl.glClearColor(0, 0.8f, 0.2f, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         //mapRenderer.render(delta);
 
-        if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY) && !Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
+        if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY) && !Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             supremeMusic.stop();
             gong.play();
             //base.play();
@@ -117,34 +120,27 @@ public class IntroScreen implements Screen {
         stateTime += Gdx.graphics.getDeltaTime();
         TextureRegion currentFrame = chu_unAnimation.getKeyFrame(stateTime, true);
 
-        x += 30 * delta;
-        if (x > Gdx.graphics.getWidth()){
-            x = -currentFrame.getRegionWidth() - 200;
-        }
+        float width = backgroundRegion.getRegionWidth()/2;
+        float height = backgroundRegion.getRegionHeight()/2;
 
-        //currentFrame.setRegionWidth(currentFrame.getRegionWidth());
-        //currentFrame.setRegionHeight(currentFrame.getRegionHeight());
+        if (chu_un_x > (backgroundRegion.getRegionWidth() + currentFrame.getRegionWidth())){
+            chu_un_x = -currentFrame.getRegionWidth();
+        }
 
         //Batch Render-Code
         batch.begin();
         batch.draw(backgroundRegion, 0, 0);
-        camera.setToOrtho(false, ,Viewport);
-        batch.draw(logoRegion,0,0);
-        batch.draw(subtitleRegion,0,0);
-        //batch.draw(introfloorRegion, 0, 0);
-        //batch.draw(introchu_unRegion, Gdx.graphics.getWidth()/2 - introchu_unRegion.getRegionWidth()/2, Gdx.graphics.getHeight()/4*3);
-        //batch.draw(currentFrame, x, introfloor.getHeight(), currentFrame.getRegionWidth()*4, currentFrame.getRegionHeight()*4);
-        //batch.draw(introspeechRegion, x+currentFrame.getRegionWidth()*2, introfloor.getHeight()+currentFrame.getRegionHeight()*4, introspeechRegion.getRegionWidth(), introspeechRegion.getRegionHeight());
+        batch.draw(logoRegion, width-logoRegion.getRegionWidth()/2, height-logoRegion.getRegionHeight()/2 + height/2f);
+        batch.draw(subtitleRegion, width-subtitleRegion.getRegionWidth()/2, height-subtitleRegion.getRegionHeight()/2 + height/5);
+        batch.draw(pavementRegion,0,0);
+        batch.draw(currentFrame, chu_un_x += 0.25f, pavementRegion.getRegionHeight());
+        batch.draw(introspeechRegion, chu_un_x+currentFrame.getRegionWidth()/2, pavementRegion.getRegionHeight()+(currentFrame.getRegionHeight()*0.8f),30f,13f);
         batch.end();
 
     }
 
     @Override
     public void resize(int width, int height) {
-        camera.viewportWidth = width;
-        camera.viewportHeight = height;
-        camera.position.set(width/2f, height/2f, 0);
-        camera.update();
     }
 
     @Override
