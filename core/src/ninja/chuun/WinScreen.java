@@ -5,16 +5,9 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g3d.ModelInstance;
-import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.TimeUtils;
 
 import java.util.Arrays;
 
@@ -31,12 +24,14 @@ public class WinScreen implements Screen {
     private TextureRegion backgroundRegion;
     private Texture logo;
     private TextureRegion logoRegion;
-    private Texture introspeech;
-    private TextureRegion introspeechRegion;
+    private Texture winspeech;
+    private TextureRegion winspeechRegion;
     private Texture subtitle;
     private TextureRegion subtitleRegion;
     private Texture pavement;
     private TextureRegion pavementRegion;
+    private Texture win;
+    private TextureRegion winRegion;
 
     public WinScreen(Game game) {
         this.game = game;
@@ -66,12 +61,12 @@ public class WinScreen implements Screen {
         backgroundRegion = new TextureRegion(background);
         logo = new Texture(Gdx.files.internal("logo.png"));
         logoRegion = new TextureRegion(logo);
-        introspeech = new Texture(Gdx.files.internal("GUI/introspeech.png"));
-        introspeechRegion = new TextureRegion(introspeech);
+        winspeech = new Texture(Gdx.files.internal("GUI/winspeech.png"));
+        winspeechRegion = new TextureRegion(winspeech);
         subtitle = new Texture(Gdx.files.internal("GUI/subtitle.png"));
         subtitleRegion = new TextureRegion(subtitle);
-        subtitle = new Texture(Gdx.files.internal("GUI/win.png"));
-        subtitleRegion = new TextureRegion(subtitle);
+        win = new Texture(Gdx.files.internal("GUI/win.png"));
+        winRegion = new TextureRegion(win);
 
         batch.getProjectionMatrix().setToOrtho2D(0, 0, 160, 117);
         Texture walkSheet = new Texture(Gdx.files.internal("sprites.png"));
@@ -114,10 +109,10 @@ public class WinScreen implements Screen {
         batch.begin();
         batch.draw(backgroundRegion, 0, 0);
         batch.draw(logoRegion, width-logoRegion.getRegionWidth()/2, height-logoRegion.getRegionHeight()/2 + height/2f);
-        batch.draw(subtitleRegion, width-subtitleRegion.getRegionWidth()/2, height-subtitleRegion.getRegionHeight()/2 + height/5);
+        batch.draw(winRegion, width-winRegion.getRegionWidth()/2, height-winRegion.getRegionHeight()/2 + height/5);
         batch.draw(pavementRegion,0,0);
         batch.draw(currentFrame, chu_un_x += 0.25f, pavementRegion.getRegionHeight());
-        batch.draw(introspeechRegion, chu_un_x+currentFrame.getRegionWidth()/2, pavementRegion.getRegionHeight()+(currentFrame.getRegionHeight()*0.8f),30f,13f);
+        batch.draw(winspeechRegion, chu_un_x+currentFrame.getRegionWidth()/2, pavementRegion.getRegionHeight()+(currentFrame.getRegionHeight()*0.8f),35f,13f);
         batch.end();
 
     }
