@@ -105,17 +105,17 @@ public class Chuun {
             return;
         }
         boolean movement = false;
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             this.dir = LEFT;
             movement = true;
             if (!supremeSteps.isPlaying() && !(this.state == JUMP)) supremeSteps.play();
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             this.dir = RIGHT;
             movement = true;
             if (!supremeSteps.isPlaying() && !(this.state == JUMP)) supremeSteps.play();
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.W) && this.state != JUMP) {
+        if ((Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP)) && this.state != JUMP) {
             supremeSteps.stop();
             supremeJump.play();
             if (this.state == TRAMPOLIN) {
