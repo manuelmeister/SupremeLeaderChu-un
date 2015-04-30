@@ -168,8 +168,8 @@ public class Chuun {
 
         pos.x = bounds.x - 0.2f;
         pos.y = bounds.y;
-        String log = "Pos:" +dv(pos) + "\t| Vel:" + dv(vel) + "\t| Accel:" + dv(accel) + "\t| Dir:" + dir + "\t| State:" + states[state] + "\t| StateTime:" + stateTime;
-        Gdx.app.debug("SupremeGame",log);
+        //String log = "Pos:" +dv(pos) + "\t| Vel:" + dv(vel) + "\t| Accel:" + dv(accel) + "\t| Dir:" + dir + "\t| State:" + states[state] + "\t| StateTime:" + stateTime;
+        //Gdx.app.debug("SupremeGame",log);
     }
 
     /**
@@ -210,8 +210,6 @@ public class Chuun {
             state = WIN;
             stateTime = 0;
         }
-
-        System.out.println(map.isTrampolin(0x0026FF));
 
         if ((map.isTrampolin(bodyTile))) {//|| map.isTrampolin(frontTile) || map.isTrampolin(frontUpperTile) || map.isTrampolin(bodyUpperTile))  {
             System.out.println("-------- Trampolin! --------");
