@@ -15,8 +15,6 @@ import java.util.Random;
 
 public class MapRenderer {
 
-    private static final int FRAME_COLS = 8;
-    private static final int FRAME_ROWS = 1;
     private static final float CHUUN_RATE = 0.075f;
 
     Map map;
@@ -57,7 +55,7 @@ public class MapRenderer {
 
     public MapRenderer(Map map) {
         this.map = map;
-        this.camera = new OrthographicCamera(18, 12);
+        this.camera = new OrthographicCamera(15, 10);
 
         this.tileRandom = new Random();
 
@@ -142,7 +140,7 @@ public class MapRenderer {
         map.chuun.updateState();
 
         camera.zoom = 1.5f;
-        camera.position.lerp(lerpTarget.set(map.chuun.pos, 0), 10f * deltaTime);
+        camera.position.lerp(lerpTarget.set(map.chuun.pos.x,map.chuun.pos.y+(map.chuun.bounds.height*4), 0), 10f * deltaTime);
         camera.update();
 
 
