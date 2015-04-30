@@ -147,9 +147,9 @@ public class MapRenderer {
         if (tile == Map.ZOOM_NORMAL){
             camera.zoom = 1.5f;
         }else if (tile == Map.ZOOM2){
-            camera.zoom = 1f;
+            camera.zoom = 2.5f;
         }else if (tile == Map.ZOOM3){
-            camera.zoom = 0.5f;
+            camera.zoom = 3.5f;
         }
 
         camera.position.lerp(lerpTarget.set(map.chuun.pos.x,map.chuun.pos.y+(map.chuun.bounds.height*4), 0), 10f * deltaTime);
